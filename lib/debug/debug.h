@@ -3,4 +3,4 @@
 
 void debug();
 
-#endif // SENSORS_H
+#endif // DEBUG_H

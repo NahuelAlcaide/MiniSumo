@@ -10,11 +10,10 @@ uint16_t valoresLinea[2];
 int pulse(int sensor, int led){
     int noise = analogRead(sensor);
     digitalWrite(led,HIGH);
-    delayMicroseconds(IR_MICORS_DELAY);
+    delayMicroseconds(IR_MICROS_DELAY);
     int reading = analogRead(sensor);
     digitalWrite(led,LOW);
     int denoised = reading - noise;
-    delay(5);
     return denoised;    
 }
 
@@ -37,6 +36,9 @@ SensorData readAllSensors() {
     data.right = pulse(RIGHT_SENSOR_PIN, RIGHT_LED_PIN);
     data.center = pulse(CENTER_SENSOR_PIN, CENTER_LED_PIN);
     data.left = pulse(LEFT_SENSOR_PIN, LEFT_LED_PIN);
+
+    // Delay de seguridad para mantener el duty cycle máximo permitido
+    delayMicroseconds((IR_MICROS_DELAY / IR_DUTY_CYCLE) - (IR_MICROS_DELAY * IR_LED_COUNT));
 
     // Leer sensores de linea
     linea.read(valoresLinea);

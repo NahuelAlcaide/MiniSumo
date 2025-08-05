@@ -27,7 +27,9 @@
 #define CENTER_LED_PIN 7
 #define LEFT_LED_PIN 8
 
-// Delay potencia IR
-#define IR_MICORS_DELAY 100
+// Parámetros sensores frontales
+#define IR_LED_COUNT 3
+#define IR_MICROS_DELAY 100
+#define IR_DUTY_CYCLE 0.05 // Porcentaje de tiempo que el led está prendido
 
 #endif // CONFIG_H

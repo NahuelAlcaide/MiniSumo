@@ -6,4 +6,4 @@ void sameDirection(int dirPow, float turn);
 void oppositeDirection(int dirPow);
 void brake();
 
-#endif // SENSORS_H
+#endif // MOTORS_H
