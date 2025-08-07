@@ -157,3 +157,12 @@ void ledMainMenu() {
     led_last_update = millis();
 }
 
+void ledBattleMenu() {
+    led_pattern = LED_PATTERN_MAIN_MENU;
+    led_step = 0;
+    led_repeat = 0;
+    led_max_repeat = 3;
+    led_active = true;
+    led_last_update = millis();
+}
+

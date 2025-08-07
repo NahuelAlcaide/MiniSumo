@@ -1,7 +1,6 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
-void controlTest();
-void controlTestStop();
+void searchLoop();
 
 #endif // SEARCH_H

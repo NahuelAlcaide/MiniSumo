@@ -37,9 +37,15 @@
 #define E_STOP 0x19 // Stop de emergencia
 #define E_STOP_OFF 0xFF // Stop de emergencia desactivado
 
-// Comandos para modo debug
+// Comandos para menu principal
+#define REMOTE_CMD_DEBUG_MODE    0x11 // Menu debug
+#define REMOTE_CMD_BATTLE_MODE   0x21 // Menu battle
+
+// Comandos para debug menu
 #define REMOTE_CMD_SENSOR_READOUT 0x1 // Toggle sensor readout
 #define REMOTE_CMD_CONTROL_TEST  0x2 // Toggle control test
-#define REMOTE_CMD_DEBUG_MODE    0x11 // Toggle debug mode
+
+// Comandos para battle menu
+#define REMOTE_CMD_BATTLE_START 0x20 // Iniciar secuencia de batalla
 
 #endif // CONFIG_H

@@ -48,6 +48,20 @@ void printPaddedValue(int value, int width) {
 // Debug Functions
 //================================================================================
 
+void controlTest(){
+    SensorData data = readAllSensors();
+    if (data.center < 70){
+        int diff = static_cast<int>((data.right - data.left) * (90.0 / 1000.0));
+        oppositeDirection(diff);
+    } else {
+        brake();
+    }
+}
+
+void controlTestStop() {
+    limpMotors();
+}
+
 /**
  * @brief Reads all sensor values and prints them to the serial monitor in a formatted table.
  * This function provides a detailed, human-readable output of all sensor states,
