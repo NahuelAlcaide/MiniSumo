@@ -12,6 +12,16 @@ void motorSetup() {
     pinMode(PWM_LEFT, OUTPUT);
 }
 
+void limpMotors() {
+    digitalWrite(AIN1, LOW);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN1, LOW);
+    digitalWrite(BIN2, LOW);
+    analogWrite(PWM_RIGHT, 0);
+    analogWrite(PWM_LEFT, 0);
+    Serial.println("limp");
+}
+
 void sameDirection(int dirPow, float turn) {
     if (dirPow > 0) {
         digitalWrite(AIN1, HIGH);

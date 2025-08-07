@@ -44,7 +44,6 @@ void printPaddedValue(int value, int width) {
     Serial.print(value);
 }
 
-
 //================================================================================
 // Debug Functions
 //================================================================================
@@ -74,86 +73,42 @@ void printSensorReadout() {
 }
 
 /**
- * @brief Processes incoming serial commands to control the robot for debugging.
+ * @brief Processes incoming remote commands to control the robot for debugging.
  *
- * This function acts as a simple command-line interface over the serial port.
- * It allows for direct motor control and toggling of debug printouts.
+ * This function toggles debug modes based on remote control input.
  *
- * Supported Commands:
- * - "SD,<power>,<turn>" : Drive motors in the Same Direction.
- * - <power>: Integer, motor power (e.g., 0-255).
- * - <turn>: Float, turn factor (e.g., -1.0 to 1.0).
- * - "OD,<power>"        : Drive motors in the Opposite Direction (for turning in place).
- * - <power>: Integer, motor power.
- * - "DB"                : Toggles the continuous sensor data readout.
- * - "CT"                : Toggles the control system test.
- * - "STOP"              : Stops all motor movement immediately.
+ * Supported Remote Commands:
+ * - REMOTE_CMD_SENSOR_READOUT : Toggles the continuous sensor data readout.
+ * - REMOTE_CMD_CONTROL_TEST   : Toggles the control system test.
  */
-void processSerialCommands() {
-    // Proceed only if there is data available to read from the serial buffer
-    if (Serial.available() > 0) {
-        String input = Serial.readStringUntil('\n');
-        input.trim(); // Remove any leading/trailing whitespace
-
-        // --- Command: Same Direction Drive ---
-        if (input.startsWith("SD,")) {
-            String params = input.substring(3); // Get the part of the string after "SD,"
-            int commaIndex = params.indexOf(',');
-
-            if (commaIndex != -1) {
-                String powerStr = params.substring(0, commaIndex);
-                String turnStr = params.substring(commaIndex + 1);
-                
-                int power = powerStr.toInt();
-                float turn = turnStr.toFloat();
-                
-                Serial.print("Executing SameDirection: Power=");
-                Serial.print(power);
-                Serial.print(", Turn=");
-                Serial.println(turn);
-                
-                sameDirection(power, turn);
-            } else {
-                Serial.println("Error: Invalid format for SD. Use: SD,<power>,<turn>");
-            }
-        } 
-        // --- Command: Opposite Direction Drive ---
-        else if (input.startsWith("OD,")) {
-            String param = input.substring(3); // Get the part of the string after "OD,"
-            int power = param.toInt();
-
-            Serial.print("Executing OppositeDirection: Power=");
-            Serial.println(power);
-
-            oppositeDirection(power);
+static void processRemoteCommands(uint16_t remoteData) {
+    if (remoteData == REMOTE_CMD_SENSOR_READOUT) {
+        g_enableSensorReadout = !g_enableSensorReadout;
+        Serial.print("Sensor readout is now ");
+        Serial.println(g_enableSensorReadout ? "ON" : "OFF");
+        // else: can handle other non-debug actions here if needed
+    }
+    if (remoteData == REMOTE_CMD_CONTROL_TEST) {
+        bool prevState = g_enableControlTest;
+        g_enableControlTest = !g_enableControlTest;
+        Serial.print("Control test is now ");
+        Serial.println(g_enableControlTest ? "ON" : "OFF");
+        if (prevState && !g_enableControlTest) {
+            // Control test was ON and is now OFF, stop motors
+            controlTestStop();
         }
-        // --- Command: Toggle Debug Readout ---
-        else if (input.equalsIgnoreCase("DB")) {
-            g_enableSensorReadout = !g_enableSensorReadout;
-            Serial.print("Sensor readout is now ");
-            Serial.println(g_enableSensorReadout ? "ON" : "OFF");
-        }
-        // --- Command: Toggle Control Test ---
-        else if (input.equalsIgnoreCase("CT")) {
-            g_enableControlTest = !g_enableControlTest;
-            Serial.print("Control test is now ");
-            Serial.println(g_enableControlTest ? "ON" : "OFF");
-        }
-        // --- Unknown Command ---
-        else {
-            Serial.println("Error: Unknown command. Use: SD, OD, DB, CT, STOP");
-        }
+        // else: can handle other non-debug actions here if needed
     }
 }
 
 /**
  * @brief Main debug loop function, to be called repeatedly in loop().
  *
- * This function processes incoming serial commands and runs any active
+ * This function processes incoming remote commands and runs any active
  * debug routines (like sensor readouts) based on the toggle flags.
  */
-void debug() {
-    processSerialCommands();
+void debug(uint16_t remoteCommand) {
+    processRemoteCommands(remoteCommand);
 
     if (g_enableSensorReadout) {
         printSensorReadout();
@@ -162,4 +117,10 @@ void debug() {
     if (g_enableControlTest) {
         controlTest();
     }
+}
+
+void clearDebugFlags() {
+    g_enableSensorReadout = false;
+    g_enableControlTest = false;
+    Serial.println("Debug flags cleared.");
 }

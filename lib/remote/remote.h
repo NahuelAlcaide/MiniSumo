@@ -5,6 +5,6 @@
 #include <IRremote.hpp> 
 
 void remoteSetup();
-uint16_t remoteTest();
+uint16_t remoteHandler();
 
 #endif // REMOTE_H

@@ -32,4 +32,14 @@
 #define IR_MICROS_DELAY 100
 #define IR_DUTY_CYCLE 0.05 // Porcentaje de tiempo que el led está prendido
 
+// COMANDOS CONTROL REMOTO
+
+#define E_STOP 0x19 // Stop de emergencia
+#define E_STOP_OFF 0xFF // Stop de emergencia desactivado
+
+// Comandos para modo debug
+#define REMOTE_CMD_SENSOR_READOUT 0x1 // Toggle sensor readout
+#define REMOTE_CMD_CONTROL_TEST  0x2 // Toggle control test
+#define REMOTE_CMD_DEBUG_MODE    0x11 // Toggle debug mode
+
 #endif // CONFIG_H

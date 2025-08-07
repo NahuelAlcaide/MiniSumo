@@ -10,3 +10,7 @@ void controlTest(){
         brake();
     }
 }
+
+void controlTestStop() {
+    limpMotors();
+}
