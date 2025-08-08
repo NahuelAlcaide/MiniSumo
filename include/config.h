@@ -29,8 +29,13 @@
 
 // Parámetros sensores frontales
 #define IR_LED_COUNT 3
-#define IR_MICROS_DELAY 100
-#define IR_DUTY_CYCLE 0.05 // Porcentaje de tiempo que el led está prendido
+#define IR_MICROS_DELAY 1000
+#define IR_DUTY_CYCLE 0.01 // Porcentaje de tiempo que el led está prendido
+
+// PARAMETROS DE BATALLA
+#define SEEK_THRESHOLD 60
+#define ATTACK_THRESHOLD 150
+#define LINE_THRESHOLD 100
 
 // COMANDOS CONTROL REMOTO
 
