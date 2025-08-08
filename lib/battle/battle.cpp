@@ -3,6 +3,7 @@
 #include "search.h"
 #include "led.h"
 #include "battle.h"
+#include "sensors.h"
 
 // Estados de batalla
 #include "search.h"
@@ -10,6 +11,8 @@
 static uint16_t g_remoteCommand = 0;
 
 static battleMenuState g_battleMenuState = BATTLE_MENU_DEFAULT_STATE;
+
+static SensorData g_sensorData;
 
 battleMenuState getBattleMenuState() {
     return g_battleMenuState;
@@ -19,6 +22,7 @@ enum battleInitState {
   BATTLE_STATE_IDLE,
   BATTLE_STATE_BATTLE_CONFIG,
   BATTLE_STATE_COUNTDOWN,
+  BATTLE_STATE_INITIAL_MOVE,
   BATTLE_STATE_BATTLE
 };
 
@@ -51,13 +55,22 @@ static void processRemoteCommands() {
 }
 
 void battleStateManger() {
-
+    g_sensorData = readAllSensors();
+    if(g_sensorData.center > 150){
+        g_battleState = BATTLE_STATE_ATTACK;
+    } else if(g_sensorData.lineLeft > 100 || g_sensorData.lineRight > 100) {
+        g_battleState = BATTLE_STATE_LINE_EVADE;
+    } else if (g_sensorData.left > 50 || g_sensorData.center > 50 || g_sensorData.right > 50) {
+        g_battleState = BATTLE_STATE_SEEK;
+    } else {
+        g_battleState = BATTLE_STATE_BLIND_SEARCH;
+    }
 }
 
 void battleExec() {
     switch(g_battleState) {
         case BATTLE_STATE_BLIND_SEARCH:
-            searchLoop();
+            searchLoop(g_sensorData);
             break;
         case BATTLE_STATE_SEEK:
             //seekLoop();
@@ -85,6 +98,9 @@ void battleModeLoop(uint16_t remoteCommand){
                 Serial.println("Countdown start.");
                 ledBlinkQuick();
                 delay(5000);
+                g_battleInitState = BATTLE_STATE_BATTLE;
+                break;
+            case BATTLE_STATE_INITIAL_MOVE:
                 g_battleInitState = BATTLE_STATE_BATTLE;
                 break;
             case BATTLE_STATE_BATTLE:

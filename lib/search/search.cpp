@@ -1,19 +1,20 @@
 #include "sensors.h"
 #include "motors.h"
-#include <Arduino.h> // For millis(), sin(), pow()
+#include <Arduino.h> // For millis()
 
-void searchLoop() {
-    SensorData data = readAllSensors();
+void searchLoop(SensorData data) {
     if (data.lineLeft > 100 || data.lineRight > 100) {
         brake();
     } else {
-        // Skewed S-curve motion using sine wave
-        static unsigned long startTime = millis();
-        float elapsed = (millis() - startTime) / 1000.0; // seconds
-        float frequency = 0.2; // Hz
-        float raw = sin(2 * PI * frequency * elapsed); // [-1, 1]
-        float skew = 3.0; // Higher value = more time at extremes
-        float turn = pow(abs(raw), skew) * (raw >= 0 ? 1 : -1); // Skewed to extremes
-        sameDirection(80, turn); // 80 is a slowish speed
+        // Fixed-rate zig-zag motion
+        static unsigned long lastSwitch = millis();
+        static int turnDir = 1; // 1 for right, -1 for left
+        unsigned long interval = 800; // ms, duration for each side
+        if (millis() - lastSwitch > interval) {
+            turnDir *= -1;
+            lastSwitch = millis();
+        }
+        float turn = 0.1f * turnDir; // Fixed turn rate
+        sameDirection(40, turn);
     }
 }
