@@ -10,6 +10,7 @@
 #include "seek.h"
 #include "attack.h"
 #include "line.h"
+#include "start.h"
 
 static uint16_t g_remoteCommand = 0;
 
@@ -23,7 +24,6 @@ battleMenuState getBattleMenuState() {
 
 enum battleInitState {
   BATTLE_STATE_IDLE,
-  BATTLE_STATE_BATTLE_CONFIG,
   BATTLE_STATE_COUNTDOWN,
   BATTLE_STATE_INITIAL_MOVE,
   BATTLE_STATE_BATTLE
@@ -54,6 +54,10 @@ static void processRemoteCommands() {
     case REMOTE_CMD_BATTLE_START:
         g_battleMenuState = BATTLE_MENU_START_STATE;
         break;
+    case REMOTE_CMD_BATTLE_CONFIG:
+        ledBlinkQuick(3);
+        g_battleMenuState = BATTLE_MENU_CONFIG_STATE;
+        break;
   }
 }
 
@@ -73,6 +77,7 @@ void battleStateManger() {
 }
 
 void battleExec() {
+    Serial.println(g_battleState);
     switch(g_battleState) {
         case BATTLE_STATE_BLIND_SEARCH:
             searchLoop(g_sensorData);
@@ -93,6 +98,14 @@ void battleModeLoop(uint16_t remoteCommand){
     g_remoteCommand = remoteCommand;
     if (g_battleMenuState != BATTLE_MENU_START_STATE) {
         processRemoteCommands();
+        if (g_battleMenuState == BATTLE_MENU_CONFIG_STATE) {
+            if (remoteCommand == REMOTE_CMD_OK) {
+                ledBlinkQuick(2);
+                g_battleMenuState = BATTLE_MENU_DEFAULT_STATE;
+            } else if(remoteCommand != 0) {
+                setInitialMove(remoteCommand);
+            }
+        }
     } else {
         switch(g_battleInitState) {
             case BATTLE_STATE_IDLE:
@@ -103,11 +116,18 @@ void battleModeLoop(uint16_t remoteCommand){
                 Serial.println("Countdown start.");
                 ledBlinkQuick();
                 delay(5000);
-                g_battleInitState = BATTLE_STATE_BATTLE;
+                g_battleInitState = BATTLE_STATE_INITIAL_MOVE;
+                static unsigned long startTime = millis();
                 break;
             case BATTLE_STATE_INITIAL_MOVE:
-                g_battleInitState = BATTLE_STATE_BATTLE;
-                break;
+                static int turnTime = execInitialMove();
+                if (millis() - startTime  >= turnTime) {
+                    g_battleInitState = BATTLE_STATE_BATTLE;
+                    break;
+                } else {
+                    // Continue executing initial move
+                    break;
+                }
             case BATTLE_STATE_BATTLE:
                 battleStateManger();
                 battleExec();

@@ -55,6 +55,11 @@
 //                 PARÁMETROS DE BATALLA
 // ============================================================
 
+// -------------------- Initial Move --------------------
+#define INIT_TURN_TIME 100 // ms, tiempo de giro derecha / izquierda
+#define INIT_FORWARD_TURN_TIME 50 // ms, tiempo de giro diagonal adelante
+#define INIT_BACKWARD_TURN_TIME 150 // ms, tiempo de giro diagonal atras
+
 // -------------------- Seek --------------------
 #define SEEK_THRESHOLD 60
 #define SEEK_TURN_RATE 0.1f // Velocidad de giro al buscar
@@ -100,14 +105,14 @@
 #define REMOTE_CMD_BATTLE_START   0x20 // Iniciar secuencia de batalla
 #define REMOTE_CMD_BATTLE_CONFIG 0x0A // Configurar batalla
 
-#define REMOTE_CMD_UP         0x01 // D-Pad up
-#define REMOTE_CMD_UP_RIGHT   0x02 // D-Pad up-right
-#define REMOTE_CMD_RIGHT      0x03 // D-Pad right
-#define REMOTE_CMD_DOWN_RIGHT 0x04 // D-Pad down-right
-#define REMOTE_CMD_DOWN       0x05 // D-Pad down
-#define REMOTE_CMD_DOWN_LEFT  0x06 // D-Pad down-left
-#define REMOTE_CMD_LEFT       0x07 // D-Pad left
-#define REMOTE_CMD_UP_LEFT    0x08 // D-Pad up-left
-#define REMOTE_CMD_OK         0x09 // Botón OK
+#define REMOTE_CMD_UP         0x1 // D-Pad up
+#define REMOTE_CMD_UP_RIGHT   0x2 // D-Pad up-right
+#define REMOTE_CMD_RIGHT      0x3 // D-Pad right
+#define REMOTE_CMD_DOWN_RIGHT 0x4 // D-Pad down-right
+#define REMOTE_CMD_DOWN       0x5 // D-Pad down
+#define REMOTE_CMD_DOWN_LEFT  0x6 // D-Pad down-left
+#define REMOTE_CMD_LEFT       0x7 // D-Pad left
+#define REMOTE_CMD_UP_LEFT    0x8 // D-Pad up-left
+#define REMOTE_CMD_OK         0x9 // Botón OK
 
 #endif // CONFIG_H

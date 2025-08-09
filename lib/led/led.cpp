@@ -23,7 +23,7 @@ static LedPattern led_pattern = LED_PATTERN_NONE;
 
 // Pattern definitions (ms)
 constexpr int LED_BLINK_FAST_ON   = 60;
-constexpr int LED_BLINK_FAST_OFF  = 80;
+constexpr int LED_BLINK_FAST_OFF  = 100;
 constexpr int LED_BLINK_SLOW_ON   = 250;
 constexpr int LED_BLINK_SLOW_OFF  = 250;
 
@@ -129,11 +129,11 @@ void ledUpdate() {
 }
 
 // Trigger a quick blink (e.g., remote command processed)
-void ledBlinkQuick() {
+void ledBlinkQuick(int repeatCount) {
     led_pattern = LED_PATTERN_QUICK_BLINK;
     led_step = 0;
     led_repeat = 0;
-    led_max_repeat = 1;
+    led_max_repeat = repeatCount;
     led_active = true;
     led_last_update = millis();
 }

@@ -7,7 +7,7 @@ void ledSetup();
 
 void ledUpdate();
 
-void ledBlinkQuick();
+void ledBlinkQuick(int repeatCount = 1);
 
 void ledBlinkDebugMode();
 
