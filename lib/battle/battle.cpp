@@ -8,6 +8,7 @@
 // Estados de batalla
 #include "search.h"
 #include "seek.h"
+#include "attack.h"
 
 static uint16_t g_remoteCommand = 0;
 
@@ -76,13 +77,13 @@ void battleExec() {
             searchLoop(g_sensorData);
             break;
         case BATTLE_STATE_SEEK:
-            //seekLoop();
+            seekLoop(g_sensorData);
             break;
         case BATTLE_STATE_LINE_EVADE:
             //lineEvadeLoop();
             break;
         case BATTLE_STATE_ATTACK:
-            //attackLoop();
+            attackLoop(g_sensorData);
             break;
     }
 }

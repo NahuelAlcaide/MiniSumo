@@ -2,6 +2,6 @@
 #define SEEK_H
 #include "sensors.h"
 
-void seekhLoop(SensorData data);
+void seekLoop(SensorData data);
 
 #endif // SEEK_H

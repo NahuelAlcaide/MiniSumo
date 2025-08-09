@@ -35,8 +35,12 @@
 
 // PARAMETROS DE BATALLA
 #define SEEK_THRESHOLD 60
+#define SEEK_TURN_RATE 0.1f // Velocidad de giro al buscar
+#define SEEK_SPEED 60 // Velocidad de avance al buscar
+
 #define ATTACK_THRESHOLD 150
-#define LINE_THRESHOLD 100
+
+#define LINE_THRESHOLD 1500
 
 // COMANDOS CONTROL REMOTO
 
