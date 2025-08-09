@@ -16,7 +16,6 @@ static lastDirection lastDir = NONE;
 
 void seekLoop(SensorData data) {
     static unsigned long lastSeenTime = 0;
-    const unsigned long holdTimeout = 600; // ms to keep turning after losing signal
 
     // Always set state hold at start
     g_battleStateHold = BATTLE_STATE_HOLD_SEEK;
@@ -34,7 +33,7 @@ void seekLoop(SensorData data) {
     }
 
     // Continue turning in last direction if still seeing or within timeout
-    if (lastDir != NONE && (millis() - lastSeenTime < holdTimeout)) {
+    if (lastDir != NONE && (millis() - lastSeenTime < SEEK_TURN_TIMEOUT)) {
         switch(lastDir) {
             case RIGHT:
                 sameDirection(SEEK_SPEED, SEEK_TURN_RATE);

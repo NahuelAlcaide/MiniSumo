@@ -9,6 +9,7 @@
 #include "search.h"
 #include "seek.h"
 #include "attack.h"
+#include "line.h"
 
 static uint16_t g_remoteCommand = 0;
 
@@ -62,7 +63,7 @@ void battleStateManger() {
     g_sensorData = readAllSensors();
     if(g_sensorData.center > ATTACK_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_ATTACK) {
         g_battleState = BATTLE_STATE_ATTACK;
-    } else if(g_sensorData.lineLeft > LINE_THRESHOLD || g_sensorData.lineRight > LINE_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_LINE_EVADE) {
+    } else if(g_sensorData.lineLeft > LINE_EVADE_THRESHOLD || g_sensorData.lineRight > LINE_EVADE_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_LINE_EVADE) {
         g_battleState = BATTLE_STATE_LINE_EVADE;
     } else if (g_sensorData.left > SEEK_THRESHOLD || g_sensorData.center > SEEK_THRESHOLD || g_sensorData.right > SEEK_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_SEEK) {
         g_battleState = BATTLE_STATE_SEEK;
@@ -80,7 +81,7 @@ void battleExec() {
             seekLoop(g_sensorData);
             break;
         case BATTLE_STATE_LINE_EVADE:
-            //lineEvadeLoop();
+            lineEvadeLoop(g_sensorData);
             break;
         case BATTLE_STATE_ATTACK:
             attackLoop(g_sensorData);
