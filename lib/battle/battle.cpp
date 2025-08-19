@@ -67,7 +67,7 @@ void battleStateManger() {
     g_sensorData = readAllSensors();
     if(g_sensorData.center > ATTACK_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_ATTACK) {
         g_battleState = BATTLE_STATE_ATTACK;
-    } else if(g_sensorData.lineLeft > LINE_EVADE_THRESHOLD || g_sensorData.lineRight > LINE_EVADE_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_LINE_EVADE) {
+    } else if(g_sensorData.lineLeft < LINE_EVADE_THRESHOLD || g_sensorData.lineRight < LINE_EVADE_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_LINE_EVADE) {
         g_battleState = BATTLE_STATE_LINE_EVADE;
     } else if (g_sensorData.left > SEEK_THRESHOLD || g_sensorData.center > SEEK_THRESHOLD || g_sensorData.right > SEEK_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_SEEK) {
         g_battleState = BATTLE_STATE_SEEK;

@@ -25,10 +25,10 @@ void lineEvadeLoop(SensorData data) {
     // --- 1. Trigger Detection (Only when IDLE) ---
     if (evadeState == IDLE) {
         int current_direction = 0;
-        if (data.lineLeft > LINE_EVADE_THRESHOLD) { current_direction -= 1; }
-        if (data.lineRight > LINE_EVADE_THRESHOLD) { current_direction += 1; }
+        if (data.lineLeft < LINE_EVADE_THRESHOLD) { current_direction -= 1; }
+        if (data.lineRight < LINE_EVADE_THRESHOLD) { current_direction += 1; }
 
-        if (current_direction != 0 || (data.lineLeft > LINE_EVADE_THRESHOLD && data.lineRight > LINE_EVADE_THRESHOLD)) {
+        if (current_direction != 0 || (data.lineLeft < LINE_EVADE_THRESHOLD && data.lineRight < LINE_EVADE_THRESHOLD)) {
             saved_direction = current_direction;
             evadeState = INITIAL_BRAKING;
             phaseStartTime = millis(); // Start timer for the first phase
@@ -56,8 +56,8 @@ void lineEvadeLoop(SensorData data) {
 
         // Read sensors to see if we're still on the line
         int current_direction = 0;
-        if (data.lineLeft > LINE_EVADE_THRESHOLD) { current_direction -= 1; }
-        if (data.lineRight > LINE_EVADE_THRESHOLD) { current_direction += 1; }
+        if (data.lineLeft < LINE_EVADE_THRESHOLD) { current_direction -= 1; }
+        if (data.lineRight < LINE_EVADE_THRESHOLD) { current_direction += 1; }
 
         if (current_direction != 0) { // Still on the line, so keep turning
             float turnValue = -current_direction * LINE_EVADE_TURN_RATE;
@@ -82,7 +82,7 @@ void lineEvadeLoop(SensorData data) {
         sameDirection(-255, 0); // Full blast reverse
 
         // Check if we are finally off the line
-        bool onLine = (data.lineLeft > LINE_EVADE_THRESHOLD || data.lineRight > LINE_EVADE_THRESHOLD);
+        bool onLine = (data.lineLeft < LINE_EVADE_THRESHOLD || data.lineRight < LINE_EVADE_THRESHOLD);
         if (onLine) {
             // As long as we see the line, keep resetting the timer for the *next* phase
             phaseStartTime = millis();

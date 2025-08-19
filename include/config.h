@@ -56,29 +56,35 @@
 // ============================================================
 
 // -------------------- Initial Move --------------------
-#define INIT_TURN_TIME 100 // ms, tiempo de giro derecha / izquierda
-#define INIT_FORWARD_TURN_TIME 50 // ms, tiempo de giro diagonal adelante
-#define INIT_BACKWARD_TURN_TIME 150 // ms, tiempo de giro diagonal atras
+#define INIT_TURN_TIME 80 // ms, tiempo de giro derecha / izquierda
+#define INIT_FORWARD_TURN_TIME 30 // ms, tiempo de giro diagonal adelante
+#define INIT_BACKWARD_TURN_TIME 130 // ms, tiempo de giro diagonal atras
+
+// -------------------- Blind search --------------------
+#define SEARCH_SPEED 60
+#define SEARCH_TURN_FACTOR 0.07f
+#define SEARCH_TURN_INTERVAL 1000 // ms
 
 // -------------------- Seek --------------------
 #define SEEK_THRESHOLD 60
-#define SEEK_TURN_RATE 0.1f // Velocidad de giro al buscar
-#define SEEK_SPEED 60 // Velocidad de avance al buscar
+#define SEEK_TURN_RATE 0.03f // Velocidad de giro al buscar
+#define SEEK_SPEED 90 // Velocidad de avance al buscar
 #define SEEK_TURN_TIMEOUT 1000 // ms
 
 // -------------------- Attack --------------------
 #define ATTACK_THRESHOLD 150
+#define ATTACK_POWER_SCALE 90
 
 // -------------------- Line Evade --------------------
-#define LINE_EVADE_THRESHOLD 200 // probablemente 1500 en competencia
+#define LINE_EVADE_THRESHOLD 200 // Negro en 800 aprox, arranca a ver la linea en 200 con un mínimo de 50
 // Timings de giro
-#define LINE_EVADE_TURN_TIME 100 // ms
+#define LINE_EVADE_TURN_TIME 70 // ms
 #define LINE_EVADE_TURN_RATE 0.1f // Velocidad de giro al evadir línea
-#define LINE_EVADE_TURN_SPEED 255 // Velocidad de giro al evadir línea
+#define LINE_EVADE_TURN_SPEED 220 // Velocidad de giro al evadir línea
 // Timings de reversa
 #define LINE_EVADE_REVERSE_TIME 200 // ms
-#define LINE_EVADE_REVERSE_SPEED 255 // 0-255
-#define LINE_EVADE_REVERSE_TURN_RATE 0.3f // Velocidad de giro al evadir línea en reversa
+#define LINE_EVADE_REVERSE_SPEED 220 // 0-255
+#define LINE_EVADE_REVERSE_TURN_RATE 0.2f // Velocidad de giro al evadir línea en reversa
 // Timings de frenos
 #define LINE_EVADE_END_BRAKE_TIME 70 // ms
 #define LINE_EVADE_START_BRAKE_TIME 70 // ms
