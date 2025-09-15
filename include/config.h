@@ -10,14 +10,14 @@
 // ============================================================
 
 // -------------------- Motor derecho --------------------
-#define AIN1 3 // Adelante
-#define AIN2 2 // Atrás
-#define PWM_RIGHT 10
+#define AIN1 4// Adelante
+#define AIN2 5// Atrás
+#define PWM_RIGHT 9
 
 // -------------------- Motor izquierdo --------------------
-#define BIN1 4 // Adelante
-#define BIN2 5 // Atrás
-#define PWM_LEFT 9
+#define BIN1 3// Adelante
+#define BIN2 2// Atrás
+#define PWM_LEFT 10
 
 // ============================================================
 //                       SENSORES
@@ -48,8 +48,8 @@
 // -------------------- Parámetros sensores frontales --------------------
 // 1000 micros con 0.01 de DC para más potencia
 #define IR_LED_COUNT 3
-#define IR_MICROS_DELAY 100 // microsegundos
-#define IR_DUTY_CYCLE 0.05 // Porcentaje de tiempo que el LED está prendido
+#define IR_MICROS_DELAY 1000 // microsegundos
+#define IR_DUTY_CYCLE 0.02 // Porcentaje de tiempo que el LED está prendido
 
 // ============================================================
 //                 PARÁMETROS DE BATALLA
@@ -61,9 +61,9 @@
 #define INIT_BACKWARD_TURN_TIME 130 // ms, tiempo de giro diagonal atras
 
 // -------------------- Blind search --------------------
-#define SEARCH_SPEED 60
+#define SEARCH_SPEED 100
 #define SEARCH_TURN_FACTOR 0.07f
-#define SEARCH_TURN_INTERVAL 1000 // ms
+#define SEARCH_TURN_INTERVAL 800 // ms
 
 // -------------------- Seek --------------------
 #define SEEK_THRESHOLD 60
@@ -73,7 +73,7 @@
 
 // -------------------- Attack --------------------
 #define ATTACK_THRESHOLD 150
-#define ATTACK_POWER_SCALE 90
+#define ATTACK_POWER_SCALE 220
 
 // -------------------- Line Evade --------------------
 #define LINE_EVADE_THRESHOLD 200 // Negro en 800 aprox, arranca a ver la linea en 200 con un mínimo de 50
