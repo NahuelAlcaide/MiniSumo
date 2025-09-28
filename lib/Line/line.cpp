@@ -4,15 +4,13 @@
 #include "config.h"
 
 // --- State-Tracking Variables ---
-// Timers for different phases of the maneuver
 static unsigned long phaseStartTime = 0;
-// Use an enum for all possible states
 enum EvadeState {
     IDLE,
     INITIAL_BRAKING,
     TURNING,
     NORMAL_REVERSING,
-    PANIC_REVERSING, // <-- New state for the panic maneuver
+    PANIC_REVERSING,
     END_BRAKING
 };
 static EvadeState evadeState = IDLE;

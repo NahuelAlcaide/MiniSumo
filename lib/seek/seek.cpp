@@ -17,7 +17,6 @@ static lastDirection lastDir = NONE;
 void seekLoop(SensorData data) {
     static unsigned long lastSeenTime = 0;
 
-    // Always set state hold at start
     g_battleStateHold = BATTLE_STATE_HOLD_SEEK;
 
     // Check sensors

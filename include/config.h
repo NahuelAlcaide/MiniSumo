@@ -96,6 +96,8 @@
 //               COMANDOS CONTROL REMOTO
 // ============================================================
 
+#define REMOTE_ADDRESS 0x8
+
 #define E_STOP 0x19 // Stop de emergencia
 #define E_STOP_OFF 0xFF // Stop de emergencia desactivado
 
