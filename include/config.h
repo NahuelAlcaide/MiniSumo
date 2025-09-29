@@ -73,7 +73,7 @@
 
 // -------------------- Attack --------------------
 #define ATTACK_THRESHOLD 150
-#define ATTACK_POWER_SCALE 220
+#define ATTACK_POWER_SCALE 190
 
 // -------------------- Line Evade --------------------
 #define LINE_EVADE_THRESHOLD 200 // Negro en 800 aprox, arranca a ver la linea en 200 con un mínimo de 50

@@ -12,6 +12,8 @@
 #include "line.h"
 #include "start.h"
 
+static long g_attackStartTime = 0;
+
 static uint16_t g_remoteCommand = 0;
 
 static battleMenuState g_battleMenuState = BATTLE_MENU_DEFAULT_STATE;
@@ -37,6 +39,7 @@ enum battleState {
     //BATTLE_STATE_SIDE_CRASH,
     BATTLE_STATE_LINE_EVADE,
     BATTLE_STATE_ATTACK,
+    BATTLE_STATE_ATTACK_CHARGE,
     //BATTLE_STATE_PANIC
 };
 
@@ -48,6 +51,8 @@ void clearBattleFlags() {
     g_battleState = BATTLE_STATE_BLIND_SEARCH;
     Serial.println("Battle flags cleared.");
 }
+
+// Battle mode menu
 
 static void processRemoteCommands() {
   switch(g_remoteCommand) {
@@ -64,8 +69,16 @@ static void processRemoteCommands() {
 battleStateHold g_battleStateHold = BATTLE_STATE_HOLD_NONE;
 
 void battleStateManger() {
+
     g_sensorData = readAllSensors();
-    if(g_sensorData.center > ATTACK_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_ATTACK) {
+    
+    if((millis() - g_attackStartTime > 2000 && g_sensorData.center > ATTACK_THRESHOLD && g_attackStartTime != 0) || g_battleStateHold == BATTLE_STATE_HOLD_ATTACK_CHARGE){ 
+        g_attackStartTime = 0;
+        g_battleState = BATTLE_STATE_ATTACK_CHARGE;
+    }else if(g_sensorData.center > ATTACK_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_ATTACK) {
+        if(g_attackStartTime == 0) {
+            g_attackStartTime = millis();
+        }
         g_battleState = BATTLE_STATE_ATTACK;
     } else if(g_sensorData.lineLeft < LINE_EVADE_THRESHOLD || g_sensorData.lineRight < LINE_EVADE_THRESHOLD || g_battleStateHold == BATTLE_STATE_HOLD_LINE_EVADE) {
         g_battleState = BATTLE_STATE_LINE_EVADE;
@@ -76,8 +89,16 @@ void battleStateManger() {
     }
 }
 
+static battleState previousBattleState = BATTLE_STATE_BLIND_SEARCH;
+
 void battleExec() {
-    Serial.println(g_battleState);
+    if(previousBattleState != g_battleState) {
+        Serial.print("State changed: ");
+        Serial.print(previousBattleState);
+        Serial.print(" -> ");
+        Serial.println(g_battleState);
+        previousBattleState = g_battleState;
+    }
     switch(g_battleState) {
         case BATTLE_STATE_BLIND_SEARCH:
             searchLoop(g_sensorData);
@@ -90,6 +111,9 @@ void battleExec() {
             break;
         case BATTLE_STATE_ATTACK:
             attackLoop(g_sensorData);
+            break;
+        case BATTLE_STATE_ATTACK_CHARGE:
+            attackLoop(g_sensorData, true);
             break;
     }
 }
