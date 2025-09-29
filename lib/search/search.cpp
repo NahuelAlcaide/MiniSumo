@@ -6,8 +6,7 @@
 void searchLoop(SensorData data) {
     static unsigned long lastSwitch = millis();
     static int turnDir = 1; // 1 for right, -1 for left
-    unsigned long interval = SEARCH_TURN_INTERVAL; // ms, duration for each side
-    if (millis() - lastSwitch > interval) {
+    if (millis() - lastSwitch > SEARCH_TURN_INTERVAL) { // ms, duration for each side
         turnDir *= -1;
         lastSwitch = millis();
     }
