@@ -25,13 +25,13 @@ battleMenuState getBattleMenuState() {
 }
 
 enum battleInitState {
-  BATTLE_STATE_IDLE,
-  BATTLE_STATE_COUNTDOWN,
-  BATTLE_STATE_INITIAL_MOVE,
-  BATTLE_STATE_BATTLE
+  BATTLE_INIT_STATE_IDLE,
+  BATTLE_INIT_STATE_COUNTDOWN,
+  BATTLE_INIT_STATE_INITIAL_MOVE,
+  BATTLE_INIT_STATE_BATTLE
 };
 
-static battleInitState g_battleInitState = BATTLE_STATE_IDLE;
+static battleInitState g_battleInitState = BATTLE_INIT_STATE_IDLE;
 
 enum battleState {
     BATTLE_STATE_BLIND_SEARCH,
@@ -47,7 +47,7 @@ static battleState g_battleState = BATTLE_STATE_BLIND_SEARCH;
 
 void clearBattleFlags() {
     g_battleMenuState = BATTLE_MENU_DEFAULT_STATE;
-    g_battleInitState = BATTLE_STATE_IDLE;
+    g_battleInitState = BATTLE_INIT_STATE_IDLE;
     g_battleState = BATTLE_STATE_BLIND_SEARCH;
     Serial.println("Battle flags cleared.");
 }
@@ -132,27 +132,30 @@ void battleModeLoop(uint16_t remoteCommand){
         }
     } else {
         switch(g_battleInitState) {
-            case BATTLE_STATE_IDLE:
+            case BATTLE_INIT_STATE_IDLE:
                 Serial.println("Battle mode.");
-                g_battleInitState = BATTLE_STATE_COUNTDOWN;
+                g_battleInitState = BATTLE_INIT_STATE_COUNTDOWN;
                 break;
-            case BATTLE_STATE_COUNTDOWN:
+            case BATTLE_INIT_STATE_COUNTDOWN:
                 Serial.println("Countdown start.");
                 ledBlinkQuick();
                 delay(5000);
-                g_battleInitState = BATTLE_STATE_INITIAL_MOVE;
+                g_battleInitState = BATTLE_INIT_STATE_INITIAL_MOVE;
                 static unsigned long startTime = millis();
                 break;
-            case BATTLE_STATE_INITIAL_MOVE:
+            case BATTLE_INIT_STATE_INITIAL_MOVE:
                 static int turnTime = execInitialMove();
-                if (millis() - startTime  >= turnTime) {
-                    g_battleInitState = BATTLE_STATE_BATTLE;
+                if(g_sensorData.left > SEEK_THRESHOLD || g_sensorData.center > SEEK_THRESHOLD || g_sensorData.right > SEEK_THRESHOLD){
+                    g_battleInitState = BATTLE_INIT_STATE_BATTLE;
+                    break;
+                }else if (millis() - startTime  >= turnTime) {
+                    g_battleInitState = BATTLE_INIT_STATE_BATTLE;
                     break;
                 } else {
                     // Continue executing initial move
                     break;
                 }
-            case BATTLE_STATE_BATTLE:
+            case BATTLE_INIT_STATE_BATTLE:
                 battleStateManger();
                 battleExec();
                 break;
