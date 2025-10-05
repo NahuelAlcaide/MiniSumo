@@ -10,13 +10,13 @@
 // ============================================================
 
 // -------------------- Motor derecho --------------------
-#define AIN1 4// Adelante
-#define AIN2 5// Atrás
+#define AIN1 4 // Adelante
+#define AIN2 5 // Atrás
 #define PWM_RIGHT 9
 
 // -------------------- Motor izquierdo --------------------
-#define BIN1 3// Adelante
-#define BIN2 2// Atrás
+#define BIN1 3 // Adelante
+#define BIN2 2 // Atrás
 #define PWM_LEFT 10
 
 // ============================================================
