@@ -108,6 +108,7 @@
 // -------------------- Comandos para debug menu --------------------
 #define REMOTE_CMD_SENSOR_READOUT 0x1 // Toggle sensor readout
 #define REMOTE_CMD_CONTROL_TEST   0x2 // Toggle control test
+#define REMOTE_CMD_INVERT_LINE    0x3 // Invertir sensores de línea
 
 // -------------------- Comandos para battle menu --------------------
 #define REMOTE_CMD_BATTLE_START   0x20 // Iniciar secuencia de batalla

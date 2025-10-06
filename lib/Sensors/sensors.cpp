@@ -11,6 +11,7 @@
 // --- Global Variables ---
 QTRSensors linea;
 uint16_t valoresLinea[2];
+bool INVERT_LINE = false;
 
 /**
  * @brief Pulsa un LED IR específico y lee el valor del fototransistor asociado.
@@ -85,11 +86,21 @@ SensorData readAllSensors() {
 
         // Lee los sensores de proximidad frontales.
         lastValues.right = pulse(RIGHT_SENSOR_PIN, RIGHT_LED_PIN);
-        lastValues.center = pulse(CENTER_SENSOR_PIN, CENTER_LED_PIN);
+        lastValues.center = pulse(CENTER_SENSOR_PIN, CENTER_LED_PIN) - 100;
         lastValues.left = pulse(LEFT_SENSOR_PIN, LEFT_LED_PIN);
+
+        if (lastValues.center < 0) {
+            lastValues.center = 0; // Evita valores negativos
+        }
 
         // Lee los sensores de línea.
         linea.read(valoresLinea);
+        
+        if (INVERT_LINE) {
+            valoresLinea[0] = static_cast<uint16_t>(map(valoresLinea[0], 2500, 0, 0, 2500));
+            valoresLinea[1] = static_cast<uint16_t>(map(valoresLinea[1], 2500, 0, 0, 2500));
+        }
+
         lastValues.lineLeft = valoresLinea[0];
         lastValues.lineRight = valoresLinea[1];
     }

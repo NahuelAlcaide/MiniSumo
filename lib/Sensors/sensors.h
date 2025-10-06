@@ -12,4 +12,6 @@ struct SensorData {
 void sensorSetup();
 SensorData readAllSensors();
 
+extern bool INVERT_LINE;
+
 #endif // SENSORS_H

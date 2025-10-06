@@ -62,6 +62,9 @@ void controlTestStop() {
     limpMotors();
 }
 
+void invertLineSensors() {
+    INVERT_LINE = !INVERT_LINE;
+}
 /**
  * @brief Reads all sensor values and prints them to the serial monitor in a formatted table.
  * This function provides a detailed, human-readable output of all sensor states,
@@ -112,6 +115,11 @@ static void processRemoteCommands(uint16_t remoteData) {
             controlTestStop();
         }
         // else: can handle other non-debug actions here if needed
+    }
+    if (remoteData == REMOTE_CMD_INVERT_LINE) {
+        invertLineSensors();
+        Serial.print("Line sensors inversion is now ");
+        Serial.println(INVERT_LINE ? "ON" : "OFF");
     }
 }
 
