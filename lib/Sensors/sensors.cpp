@@ -86,7 +86,7 @@ SensorData readAllSensors() {
 
         // Lee los sensores de proximidad frontales.
         lastValues.right = pulse(RIGHT_SENSOR_PIN, RIGHT_LED_PIN);
-        lastValues.center = pulse(CENTER_SENSOR_PIN, CENTER_LED_PIN) - 100;
+        lastValues.center = pulse(CENTER_SENSOR_PIN, CENTER_LED_PIN);
         lastValues.left = pulse(LEFT_SENSOR_PIN, LEFT_LED_PIN);
 
         if (lastValues.center < 0) {
