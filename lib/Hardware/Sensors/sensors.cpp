@@ -4,11 +4,11 @@
 
 #include "sensors.h"
 
-// --- Constants ---
-// Define the minimum time in microseconds that must pass before reading the sensors again.
+// --- Constantes ---
+// Definir el tiempo mínimo en microsegundos que tiene que pasar antes de que se puedan volver a prender los LEDs
 #define SENSOR_COOLDOWN_US ((IR_MICROS_DELAY / IR_DUTY_CYCLE) - (IR_MICROS_DELAY * IR_LED_COUNT))
 
-// --- Global Variables ---
+// --- Variables Globales ---
 QTRSensors linea;
 uint16_t valoresLinea[2];
 bool INVERT_LINE = false;
@@ -40,9 +40,7 @@ int pulse(int sensor, int led) {
     return denoised;
 }
 
-/**
- * @brief Configura los pines y la librería QTR para los sensores del robot.
- */
+
 void sensorSetup() {
     // Pin modes para los fototransistores
     pinMode(RIGHT_SENSOR_PIN, INPUT);
@@ -59,15 +57,6 @@ void sensorSetup() {
     linea.setSensorPins((const uint8_t[]){LEFT_LINE_PIN, RIGHT_LINE_PIN}, 2);
 }
 
-/**
- * @brief Lee todos los sensores del robot usando un cooldown no bloqueante.
- *
- * Si se llama antes de que pase el periodo SENSOR_COOLDOWN_US, esta función
- * devolverá los datos de sensores previamente cacheados. De lo contrario,
- * realizará una nueva lectura y actualizará la caché.
- *
- * @return Un struct de tipo @ref SensorData con los valores más recientes de los sensores.
- */
 SensorData readAllSensors() {
     // Las variables estáticas persisten su valor entre llamadas a la función.
     // Se usan para almacenar el último tiempo de lectura y los últimos valores leídos.
