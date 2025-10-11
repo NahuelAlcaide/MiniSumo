@@ -6,14 +6,19 @@
 #include "config.h"
 
 // Librerías "low" level
-#include "sensors.h"
-#include "motors.h"
-#include "remote.h"
-#include "led.h"
+#include "Sensors/sensors.h"
+#include "Motors/MotorController/MotorController.h"
+#include "remote/remote.h"
+#include "led/led.h"
 
-// Estados
-#include "battle.h"
-#include "debug.h"
+// Util
+#include "Debug/debug.h"
+
+// System
+#include "Battle/BattleEngine/BattleEngine.h"
+#include "SystemState/SystemState.h"
+#include "Battle/BattleMenu/battleMenu.h"
+#include "Battle/BattleEngine/BattleEngine.h"
 
 
 //================================================================================
@@ -28,7 +33,7 @@ void setup() {
 
   ledSetup();
   sensorSetup();
-  motorSetup();
+  initializeBattleEngine();
   remoteSetup(); 
 }
 
@@ -36,7 +41,7 @@ void resetEmergencyStop() {
   g_emergencyStop = false;
   clearDebugFlags();
   ledMainMenu();
-  clearBattleFlags();
+  resetSystemState();
 }
 
 enum mainMenuState {
@@ -53,7 +58,11 @@ static void processRemoteCommands() {
     Serial.print("State changed: DEFAULT (E_STOP)\n");
     ledBlinkQuick();
     g_emergencyStop = true;
-    limpMotors();
+
+    IMotorController* motors = getActiveMotorController();
+    if (motors) {
+      motors->limpMotors();
+    }
     return;
   } else if(getBattleMenuState() != BATTLE_MENU_START_STATE) {
     switch(g_remoteCommand){
@@ -87,10 +96,11 @@ void mainMenu() {
     case STATE_DEFAULT:
       break;
     case STATE_BATTLE_MENU:
-      battleModeLoop(g_remoteCommand);
+      execBattleMenu(g_remoteCommand);
       break;
     case STATE_DEBUG_MENU:
-      debug(g_remoteCommand);
+      IMotorController* motors = getActiveMotorController();
+      debug(g_remoteCommand, motors);
       break;
   }
 }
@@ -107,7 +117,7 @@ void loop() {
     if(getBattleMenuState() != BATTLE_MENU_START_STATE) {
       mainMenu();
     } else {
-      battleModeLoop(g_remoteCommand);
+      battleExec();
     }
   } else {
     uint16_t remoteCommand = remoteHandler();

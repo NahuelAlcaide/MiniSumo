@@ -1,5 +1,4 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 
 // ************************************************************
 //                      DEFINICIONES DE PINES
@@ -109,6 +108,7 @@
 #define REMOTE_CMD_SENSOR_READOUT 0x1 // Toggle sensor readout
 #define REMOTE_CMD_CONTROL_TEST   0x2 // Toggle control test
 #define REMOTE_CMD_INVERT_LINE    0x3 // Invertir sensores de línea
+#define REMOTE_CMD_STRATEGY_DEBUG 0x4 // Debug de estrategia
 
 // -------------------- Comandos para battle menu --------------------
 #define REMOTE_CMD_BATTLE_START   0x20 // Iniciar secuencia de batalla
@@ -123,5 +123,3 @@
 #define REMOTE_CMD_LEFT       0x7 // D-Pad left
 #define REMOTE_CMD_UP_LEFT    0x8 // D-Pad up-left
 #define REMOTE_CMD_OK         0x9 // Botón OK
-
-#endif // CONFIG_H
