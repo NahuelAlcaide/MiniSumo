@@ -62,6 +62,7 @@ void setActiveStrategy(uint8_t index) {
     if (index < sizeof(g_strategies) / sizeof(g_strategies[0]) && g_current_strategy_index != index) {
         g_current_strategy_index = index;
         g_active_strategy = g_strategies[g_current_strategy_index];
+        Serial.println("Strategy changed to index: " + String(g_current_strategy_index));
         if (g_active_strategy) {
             g_active_strategy->init();
         }

@@ -19,6 +19,7 @@
 #include "SystemState/SystemState.h"
 #include "Battle/BattleMenu/BattleMenu.h"
 #include "Battle/BattleEngine/BattleEngine.h"
+#include "Strategies/StrategyMenu/StrategyMenu.h"
 
 
 //================================================================================
@@ -117,11 +118,13 @@ void mainMenu() {
     case STATE_BATTLE_MENU:
       execBattleMenu(g_remoteCommand);
       break;
-    case STATE_DEBUG_MENU:
-      IMotorController* motors = getActiveMotorController();
-      debug(g_remoteCommand, motors);
-      break;
+  case STATE_DEBUG_MENU: {
+        IMotorController* motors = getActiveMotorController();
+        debug(g_remoteCommand, motors);
+        break;
+      }
     case STATE_STRATEGY_MENU:
+      strategyMenu(g_remoteCommand);
       break;
   }
 }
