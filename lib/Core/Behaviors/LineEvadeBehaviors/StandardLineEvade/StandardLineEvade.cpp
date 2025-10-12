@@ -1,8 +1,8 @@
 #include "StandardLineEvade.h"
 #include <Arduino.h>
 
-#include "../Hardware/Sensors/sensors.h"
-#include "config.h"
+#include "../Hardware/Sensors/Sensors.h"
+#include "Config.h"
 
 // --- State-Tracking Variables ---
 static unsigned long phaseStartTime = 0;

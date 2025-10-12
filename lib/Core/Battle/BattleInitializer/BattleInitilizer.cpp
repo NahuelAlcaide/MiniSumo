@@ -1,10 +1,10 @@
-#include "battleInitilizer.h"
+#include "BattleInitilizer.h"
 #include <arduino.h>
 
 #include "config.h"
-#include "Battle/InitialMove/initialMove.h"
-#include "led/led.h"
-#include "Sensors/sensors.h"
+#include "Battle/InitialMove/InitialMove.h"
+#include "Led/Led.h"
+#include "Sensors/Sensors.h"
 
 static battleInitState g_battleInitState = BATTLE_INIT_STATE_IDLE;
 

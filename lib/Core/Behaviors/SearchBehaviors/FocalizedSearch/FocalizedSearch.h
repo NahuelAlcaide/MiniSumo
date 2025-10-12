@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Sensors/sensors.h"
+#include "Sensors/Sensors.h"
 #include "Behaviors/SearchBehaviors/ISearchBehavior.h"
 #include "Motors/IMotorController.h"
 

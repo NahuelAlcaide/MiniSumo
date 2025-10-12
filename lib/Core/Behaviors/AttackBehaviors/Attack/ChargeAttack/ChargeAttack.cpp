@@ -1,12 +1,12 @@
-#include "chargeAttack.h"
+#include "ChargeAttack.h"
 
 #include "config.h"
 
-chargeAttack::chargeAttack(IMotorController* motorController) :
-    standardAttack(motorController)
+ChargeAttack::ChargeAttack(IMotorController* motorController) :
+    StandardAttack(motorController)
 {}
 
-chargeAttack::Status chargeAttack::execute(const SensorData data) {
+ChargeAttack::Status ChargeAttack::execute(const SensorData data) {
 
     float diff = static_cast<int>((data.right - data.left) * (1 / 1000.0));
 

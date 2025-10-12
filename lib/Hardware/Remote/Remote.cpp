@@ -1,8 +1,8 @@
-#include "config.h"
+#include "Config.h"
 
 #define USE_IRREMOTE_HPP_AS_PLAIN_INCLUDE
 #include <IRremote.hpp>
-#include "led/led.h"
+#include "Led/Led.h"
 
 void remoteSetup() {
     IrReceiver.begin(IR_RECEIVE_PIN, ENABLE_LED_FEEDBACK);

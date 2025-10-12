@@ -1,8 +1,8 @@
 #include "FocalizedSearch.h"
 
 #include <Arduino.h>
-#include "config.h"
-#include "../Hardware/Sensors/sensors.h"
+#include "Config.h"
+#include "../Hardware/Sensors/Sensors.h"
 
 static focalizedSearch::Status g_status = focalizedSearch::COMPLETED;
 

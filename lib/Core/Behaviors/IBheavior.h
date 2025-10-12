@@ -1,5 +1,5 @@
 #pragma once
-#include "Sensors/sensors.h"
+#include "Sensors/Sensors.h"
 
 class IBehavior {
 public:

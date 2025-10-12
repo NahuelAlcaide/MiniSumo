@@ -11,3 +11,5 @@ void ledBlinkDebugMode();
 void ledMainMenu();
 
 void ledBattleMenu();
+
+void ledStrategyMenu();

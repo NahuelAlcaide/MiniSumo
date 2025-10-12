@@ -1,4 +1,6 @@
 #pragma once
+#include <Arduino.h>
+
 #include "Motors/MotorController/MotorController.h"
 #include "Strategies/IStrategy.h"
 
@@ -11,6 +13,6 @@ void initializeBattleEngine();
 
 void setBattleDebugMode(bool enabled);
 
-void setBattleDebugMode(bool enabled);
+void setActiveStrategy(uint8_t index);
 
 IMotorController* getActiveMotorController();

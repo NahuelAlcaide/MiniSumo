@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "config.h"
+#include "Config.h"
 #include "../../../Hardware/Motors/MotorController/MotorController.h"
 #include "Battle/BattleEngine/BattleEngine.h"
 

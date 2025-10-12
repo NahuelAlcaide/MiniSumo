@@ -1,4 +1,4 @@
-#include "DefaultStrategy.h"
+#include "Strategy_2.h"
 
 #include <stddef.h>
 #include <Arduino.h>
@@ -12,10 +12,10 @@
 #include "Behaviors/SearchBehaviors/BlindSearch/BlindSearch.h"
 #include "Behaviors/LineEvadeBehaviors/StandardLineEvade/StandardLineEvade.h"
 
-#include "../Util/Debug/debug.h"
+#include "Debug/debug.h"
 
 // The state enum's definition
-enum class DefaultStrategyState : uint8_t {
+enum class Strategy_2State : uint8_t {
     CHARGING,
     ATTACKING,
     EVADING_LINE,
@@ -25,16 +25,16 @@ enum class DefaultStrategyState : uint8_t {
 };
 
 static const char* g_stateNames[] = {
-    "CHARGING",
-    "ATTACKING",
-    "EVADING_LINE",
-    "FOCALIZED_SEARCHING",
-    "BLIND_SEARCHING"
+    "CHARGING_2",
+    "ATTACKING_2",
+    "EVADING_LINE_2",
+    "FOCALIZED_SEARCHING_2",
+    "BLIND_SEARCHING_2"
 };
 
 // The constructor now works because the compiler can see that ISeekBehavior and
 // IAttackBehavior are both valid types of IBehavior.
-DefaultStrategy::DefaultStrategy(
+Strategy_2::Strategy_2(
     ISearchBehavior* blindSearch,
     ISearchBehavior* focalizedSearch,
     IAttackBehavior* standardAttack,
@@ -42,45 +42,45 @@ DefaultStrategy::DefaultStrategy(
     ILineEvadeBehavior* standardLineEvade
     )
 {
-    m_currentState = DefaultStrategyState::BlIND_SEARCHING;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::BlIND_SEARCHING)]     = blindSearch;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::FOCALIZED_SEARCHING)] = focalizedSearch;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::ATTACKING)]           = standardAttack;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::CHARGING)]            = chargeAttack;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::EVADING_LINE)]        = standardLineEvade;
+    m_currentState = Strategy_2State::BlIND_SEARCHING;
+    m_behaviorTable[static_cast<size_t>(Strategy_2State::BlIND_SEARCHING)]     = blindSearch;
+    m_behaviorTable[static_cast<size_t>(Strategy_2State::FOCALIZED_SEARCHING)] = focalizedSearch;
+    m_behaviorTable[static_cast<size_t>(Strategy_2State::ATTACKING)]           = standardAttack;
+    m_behaviorTable[static_cast<size_t>(Strategy_2State::CHARGING)]            = chargeAttack;
+    m_behaviorTable[static_cast<size_t>(Strategy_2State::EVADING_LINE)]        = standardLineEvade;
 }
 
 
 static unsigned long g_attackStartTime;
 
-void DefaultStrategy::init() {
-    m_currentState = DefaultStrategyState::BlIND_SEARCHING;
+void Strategy_2::init() {
+    m_currentState = Strategy_2State::BlIND_SEARCHING;
     g_attackStartTime = 0;
 }
 
-const char* DefaultStrategy::getName() const {
+const char* Strategy_2::getName() const {
     return "Default Array Strategy";
 }
 
-void DefaultStrategy::execute(const SensorData& data) {
+void Strategy_2::execute(const SensorData& data) {
 
-    DefaultStrategyState suggestedState;
+    Strategy_2State suggestedState;
 
     // 1. STRATEGY'S JOB: Determine the highest-priority suggested state.
     if((millis() - g_attackStartTime > 2000 && data.center > ATTACK_THRESHOLD && g_attackStartTime != 0)){
         g_attackStartTime = 0;
-        suggestedState = DefaultStrategyState::CHARGING;
+        suggestedState = Strategy_2State::CHARGING;
     }else if(data.center > ATTACK_THRESHOLD) {
         if(g_attackStartTime == 0) {
             g_attackStartTime = millis();
         }
-        suggestedState = DefaultStrategyState::ATTACKING;
+        suggestedState = Strategy_2State::ATTACKING;
     } else if(data.lineLeft < LINE_EVADE_THRESHOLD || data.lineRight < LINE_EVADE_THRESHOLD) {
-        suggestedState = DefaultStrategyState::EVADING_LINE;
+        suggestedState = Strategy_2State::EVADING_LINE;
     } else if (data.left > SEEK_THRESHOLD || data.center > SEEK_THRESHOLD || data.right > SEEK_THRESHOLD) {
-        suggestedState = DefaultStrategyState::FOCALIZED_SEARCHING;
+        suggestedState = Strategy_2State::FOCALIZED_SEARCHING;
     } else {
-        suggestedState = DefaultStrategyState::BlIND_SEARCHING;
+        suggestedState = Strategy_2State::BlIND_SEARCHING;
     }
 
     // 2. BEHAVIOR'S JOB: Execute and report its status.
@@ -95,7 +95,7 @@ void DefaultStrategy::execute(const SensorData& data) {
     // B) A higher-priority state is suggested.
     if (status == IBehavior::COMPLETED || isPriorityEscalation) {
         // If we are escalating priority, reset the timer for the new state.
-        if (isPriorityEscalation && m_currentState != DefaultStrategyState::ATTACKING) {
+        if (isPriorityEscalation && m_currentState != Strategy_2State::ATTACKING) {
             g_attackStartTime = 0;
         }
         m_currentState = suggestedState;

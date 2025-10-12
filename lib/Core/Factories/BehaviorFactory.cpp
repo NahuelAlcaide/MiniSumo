@@ -1,8 +1,8 @@
 #include "BehaviorFactory.h"
 #include <arduino.h>
 
-#include "Behaviors/AttackBehaviors/Attack/standardAttack.h"
-#include "Behaviors/AttackBehaviors/Attack/ChargeAttack/chargeAttack.h"
+#include "Behaviors/AttackBehaviors/Attack/StandardAttack.h"
+#include "Behaviors/AttackBehaviors/Attack/ChargeAttack/ChargeAttack.h"
 #include "Behaviors/LineEvadeBehaviors/StandardLineEvade/StandardLineEvade.h"
 #include "Behaviors/SearchBehaviors/BlindSearch/BlindSearch.h"
 #include "Behaviors/SearchBehaviors/FocalizedSearch/FocalizedSearch.h"
@@ -21,16 +21,25 @@ IMotorController* initializeBehaviorsAndStrategy(bool useDummyMotors) {
     delete g_charge_attack_behavior;
     delete g_standard_line_evade_behavior;
     delete g_default_strategy;
+    delete g_strategy_2;
 
     // --- Create NEW instances of behaviors with the correct motors ---
     g_blind_search_behavior = new blindSearch(motorController);
     g_focalized_search_behavior = new focalizedSearch(motorController);
-    g_standard_attack_behavior = new standardAttack(motorController);
-    g_charge_attack_behavior = new chargeAttack(motorController);
+    g_standard_attack_behavior = new StandardAttack(motorController);
+    g_charge_attack_behavior = new ChargeAttack(motorController);
     g_standard_line_evade_behavior = new standardLineEvade(motorController);
 
     // --- Create NEW instances of the strategy with the new behaviors ---
     g_default_strategy = new DefaultStrategy(
+        g_blind_search_behavior,
+        g_focalized_search_behavior,
+        g_standard_attack_behavior,
+        g_charge_attack_behavior,
+        g_standard_line_evade_behavior
+    );
+
+    g_strategy_2 = new Strategy_2(
         g_blind_search_behavior,
         g_focalized_search_behavior,
         g_standard_attack_behavior,

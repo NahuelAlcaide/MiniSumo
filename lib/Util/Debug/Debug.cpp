@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include "config.h"
-#include "Sensors/sensors.h"
-#include "debug.h"
+#include "Config.h"
+#include "Sensors/Sensors.h"
+#include "Debug.h"
 #include "Motors/MotorController/MotorController.h"
 #include "../Core/Battle/BattleEngine/BattleEngine.h"
 

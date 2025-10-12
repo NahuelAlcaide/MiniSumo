@@ -103,6 +103,15 @@
 // -------------------- Comandos para menú principal --------------------
 #define REMOTE_CMD_DEBUG_MODE    0x11 // Menú debug
 #define REMOTE_CMD_BATTLE_MODE   0x21 // Menú battle
+#define REMOTE_CMD_STRATEGY_MENU 0x31 // Menú estrategia
+
+// --------------- Comandos para strategy select menu ---------------
+#define REMOTE_CMD_STRATEGY_1 0x1 // Estrategia 1 (Default)
+#define REMOTE_CMD_STRATEGY_2 0x2 // Estrategia 2
+#define REMOTE_CMD_STRATEGY_3 0x3 // Estrategia 3
+#define REMOTE_CMD_STRATEGY_4 0x4 // Estrategia 4
+#define REMOTE_CMD_STRATEGY_5 0x5 // Estrategia 5
+#define REMOTE_CMD_STRATEGY_6 0x6 // Estrategia 6
 
 // -------------------- Comandos para debug menu --------------------
 #define REMOTE_CMD_SENSOR_READOUT 0x1 // Toggle sensor readout
@@ -112,7 +121,7 @@
 
 // -------------------- Comandos para battle menu --------------------
 #define REMOTE_CMD_BATTLE_START   0x20 // Iniciar secuencia de batalla
-#define REMOTE_CMD_BATTLE_CONFIG 0x0A // Configurar batalla
+#define REMOTE_CMD_BATTLE_CONFIG  0x0A // Configurar batalla
 
 #define REMOTE_CMD_UP         0x1 // D-Pad up
 #define REMOTE_CMD_UP_RIGHT   0x2 // D-Pad up-right

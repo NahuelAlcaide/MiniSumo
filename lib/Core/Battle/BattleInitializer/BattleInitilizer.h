@@ -1,5 +1,5 @@
 #pragma once
-#include "Sensors/sensors.h"
+#include "Sensors/Sensors.h"
 
 enum battleInitState {
     BATTLE_INIT_STATE_IDLE,
