@@ -1,6 +1,6 @@
 #include "BattleMenu.h"
 #include <stdint.h>
-#include "config.h"
+#include "Config.h"
 #include "Battle/InitialMove/InitialMove.h"
 #include "Led/Led.h"
 

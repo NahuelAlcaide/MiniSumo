@@ -1,6 +1,5 @@
 #include "DefaultStrategy.h"
 
-#include <stddef.h>
 #include <Arduino.h>
 
 #include "Config.h"
@@ -12,7 +11,7 @@
 #include "Behaviors/SearchBehaviors/BlindSearch/BlindSearch.h"
 #include "Behaviors/LineEvadeBehaviors/StandardLineEvade/StandardLineEvade.h"
 
-#include "../Util/Debug/debug.h"
+#include "../Util/Util/Util.h"
 
 // The state enum's definition
 enum class DefaultStrategyState : uint8_t {

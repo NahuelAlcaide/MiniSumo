@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#include "config.h"
+#include "Config.h"
 
 blindSearch::blindSearch(IMotorController* motorController) :
     m_motorController(motorController)

@@ -1,7 +1,7 @@
 #include "BattleInitilizer.h"
-#include <arduino.h>
+#include <Arduino.h>
 
-#include "config.h"
+#include "Config.h"
 #include "Battle/InitialMove/InitialMove.h"
 #include "Led/Led.h"
 #include "Sensors/Sensors.h"

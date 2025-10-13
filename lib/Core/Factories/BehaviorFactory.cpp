@@ -1,5 +1,5 @@
 #include "BehaviorFactory.h"
-#include <arduino.h>
+#include <Arduino.h>
 
 #include "Behaviors/AttackBehaviors/Attack/StandardAttack.h"
 #include "Behaviors/AttackBehaviors/Attack/ChargeAttack/ChargeAttack.h"

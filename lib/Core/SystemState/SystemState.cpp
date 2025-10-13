@@ -1,12 +1,12 @@
 #include "SystemState.h"
 
-#include <arduino.h>
+#include <Arduino.h>
 
 // Include the headers for each module that needs resetting.
-#include "Battle/BattleMenu/battleMenu.h"
-#include "Battle/BattleInitializer/battleInitilizer.h"
-#include "Battle/BattleEngine/battleEngine.h" // To get the active strategy
-#include "Battle/InitialMove/initialMove.h"
+#include "Battle/BattleMenu/BattleMenu.h"
+#include "Battle/BattleInitializer/BattleInitilizer.h"
+#include "Battle/BattleEngine/BattleEngine.h" // To get the active strategy
+#include "Battle/InitialMove/InitialMove.h"
 
 void resetSystemState() {
     // Call the reset function for each module.

@@ -1,6 +1,6 @@
 #include "StrategyMenu.h"
 
-#include "config.h"
+#include "Config.h"
 #include "Battle/BattleEngine/BattleEngine.h"
 
 void strategyMenu(uint16_t remoteCommand)

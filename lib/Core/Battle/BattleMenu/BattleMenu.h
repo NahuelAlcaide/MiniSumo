@@ -1,5 +1,5 @@
 #pragma once
-#include <arduino.h>
+#include <Arduino.h>
 
 enum battleMenuState {
     BATTLE_MENU_DEFAULT_STATE,

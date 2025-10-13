@@ -1,6 +1,6 @@
 #include "ChargeAttack.h"
 
-#include "config.h"
+#include "Config.h"
 
 ChargeAttack::ChargeAttack(IMotorController* motorController) :
     StandardAttack(motorController)
