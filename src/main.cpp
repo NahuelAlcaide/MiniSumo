@@ -13,7 +13,6 @@
 // System
 #include "Battle/BattleEngine/BattleEngine.h"
 #include "Battle/BattleMenu/BattleMenu.h"
-#include "Battle/BattleEngine/BattleEngine.h"
 #include "ESTOP/EStop.h"
 #include "MainMenu/MainMenu.h"
 
