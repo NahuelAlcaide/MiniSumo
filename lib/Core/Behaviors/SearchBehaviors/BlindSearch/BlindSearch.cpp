@@ -4,11 +4,11 @@
 
 #include "Config.h"
 
-blindSearch::blindSearch(IMotorController* motorController) :
+BlindSearch::BlindSearch(IMotorController* motorController) :
     m_motorController(motorController)
 {}
 
-blindSearch::Status blindSearch::execute(SensorData data) {
+BlindSearch::Status BlindSearch::execute(SensorData data) {
     static unsigned long lastSwitch = millis();
     static int turnDir = 1; // 1 derecha, -1 izquierda.
 

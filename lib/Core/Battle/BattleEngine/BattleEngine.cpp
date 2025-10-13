@@ -21,7 +21,7 @@
 MotorController g_real_motors;
 DummyMotorController g_dummy_motors;
 
-blindSearch* g_blind_search_behavior = nullptr;
+BlindSearch* g_blind_search_behavior = nullptr;
 focalizedSearch*   g_focalized_search_behavior = nullptr;
 StandardAttack* g_standard_attack_behavior= nullptr;
 ChargeAttack*   g_charge_attack_behavior = nullptr;
