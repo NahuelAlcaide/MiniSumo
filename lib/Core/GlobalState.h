@@ -12,7 +12,7 @@
 extern MotorController  g_real_motors;
 extern DummyMotorController g_dummy_motors;
 
-extern blindSearch* g_blind_search_behavior;
+extern BlindSearch* g_blind_search_behavior;
 extern focalizedSearch*   g_focalized_search_behavior;
 extern StandardAttack* g_standard_attack_behavior;
 extern ChargeAttack*   g_charge_attack_behavior;
