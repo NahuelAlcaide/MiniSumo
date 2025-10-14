@@ -15,11 +15,11 @@ class ILineEvadeBehavior;
 class DefaultStrategy : public IStrategy {
 public:
     DefaultStrategy(
-        ISearchBehavior* blindSearch,
-        ISearchBehavior* focalizedSearch,
-        IAttackBehavior* standardAttack,
-        IAttackBehavior* chargeAttack,
-        ILineEvadeBehavior* standardLineEvade
+        ISearchBehavior* BlindSearch,
+        ISearchBehavior* FocalizedSearch,
+        IAttackBehavior* StandardAttack,
+        IAttackBehavior* ChargeAttack,
+        ILineEvadeBehavior* StandardLineEvade
     );
 
     // Implementing the IStrategy interface remains the same

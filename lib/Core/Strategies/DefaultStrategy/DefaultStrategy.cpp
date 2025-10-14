@@ -23,30 +23,30 @@ enum class DefaultStrategyState : uint8_t {
     COUNT
 };
 
-static const char* g_stateNames[] = {
-    "CHARGING",
-    "ATTACKING",
-    "EVADING_LINE",
-    "FOCALIZED_SEARCHING",
-    "BLIND_SEARCHING"
-};
+//static const char* g_stateNames[] = {
+//    "CHARGING",
+//    "ATTACKING",
+//    "EVADING_LINE",
+//    "FOCALIZED_SEARCHING",
+//    "BLIND_SEARCHING"
+//};
 
 // The constructor now works because the compiler can see that ISeekBehavior and
 // IAttackBehavior are both valid types of IBehavior.
 DefaultStrategy::DefaultStrategy(
-    ISearchBehavior* blindSearch,
-    ISearchBehavior* focalizedSearch,
-    IAttackBehavior* standardAttack,
-    IAttackBehavior* chargeAttack,
-    ILineEvadeBehavior* standardLineEvade
+    ISearchBehavior* BlindSearch,
+    ISearchBehavior* FocalizedSearch,
+    IAttackBehavior* StandardAttack,
+    IAttackBehavior* ChargeAttack,
+    ILineEvadeBehavior* StandardLineEvade
     )
 {
     m_currentState = DefaultStrategyState::BlIND_SEARCHING;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::BlIND_SEARCHING)]     = blindSearch;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::FOCALIZED_SEARCHING)] = focalizedSearch;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::ATTACKING)]           = standardAttack;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::CHARGING)]            = chargeAttack;
-    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::EVADING_LINE)]        = standardLineEvade;
+    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::BlIND_SEARCHING)]     = BlindSearch;
+    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::FOCALIZED_SEARCHING)] = FocalizedSearch;
+    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::ATTACKING)]           = StandardAttack;
+    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::CHARGING)]            = ChargeAttack;
+    m_behaviorTable[static_cast<size_t>(DefaultStrategyState::EVADING_LINE)]        = StandardLineEvade;
 }
 
 
@@ -101,8 +101,8 @@ void DefaultStrategy::execute(const SensorData& data) {
     }
     // If neither condition is met, the current behavior holds its state.
 
-    Serial.print("Current State: ");
-    Serial.print(g_stateNames[static_cast<size_t>(m_currentState)]);
-    printSensorReadout(data);
+    //Serial.print("Current State: ");
+    //Serial.print(g_stateNames[static_cast<size_t>(m_currentState)]);
+    //printSensorReadout(data);
 }
 

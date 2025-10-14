@@ -64,6 +64,11 @@
 #define SEARCH_TURN_FACTOR 0.07f
 #define SEARCH_TURN_INTERVAL 800 // ms
 
+// -------------------- Defensive Blind search --------------------
+#define DEFENSIVE_SEARCH_BRAKE_TIME 50 // ms
+#define DEFENSIVE_SEARCH_TURN_TIME 80 // ms
+#define DEFENSIVE_SEARCH_WAIT_TIME 1500 // ms
+
 // -------------------- Seek --------------------
 #define SEEK_THRESHOLD 60
 #define SEEK_TURN_RATE 0.03f // Velocidad de giro al buscar

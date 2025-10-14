@@ -4,7 +4,7 @@
 #include "Behaviors/SearchBehaviors/ISearchBehavior.h"
 #include "Motors/IMotorController.h"
 
-class focalizedSearch : public ISearchBehavior {
+class FocalizedSearch : public ISearchBehavior {
 public:
 
     enum lastDirection {
@@ -28,7 +28,7 @@ public:
     */
     Status execute(SensorData data) override;
 
-    explicit focalizedSearch(IMotorController* motorController);
+    explicit FocalizedSearch(IMotorController* motorController);
 private:
     IMotorController* m_motorController; // Contiene un pointer a la capa de abstracción de los motores
 };

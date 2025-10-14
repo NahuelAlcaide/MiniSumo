@@ -6,16 +6,16 @@
 
 // --- State-Tracking Variables ---
 static unsigned long phaseStartTime = 0;
-static standardLineEvade::EvadeState evadeState = standardLineEvade::IDLE;
+static StandardLineEvade::EvadeState evadeState = StandardLineEvade::IDLE;
 // Stores the direction of the initial hit (-1 left, 1 right, 0 both)
 static int saved_direction = 0;
-static standardLineEvade::Status g_status = standardLineEvade::COMPLETED;
+static StandardLineEvade::Status g_status = StandardLineEvade::COMPLETED;
 
-standardLineEvade::standardLineEvade(IMotorController* motorController) :
+StandardLineEvade::StandardLineEvade(IMotorController* motorController) :
     m_motorController(motorController) // Initialize the member variable
 {}
 
-standardLineEvade::Status standardLineEvade::execute(SensorData data) {
+StandardLineEvade::Status StandardLineEvade::execute(SensorData data) {
 
     g_status = RUNNING;
 

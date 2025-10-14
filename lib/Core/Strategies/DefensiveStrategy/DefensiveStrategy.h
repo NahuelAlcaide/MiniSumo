@@ -1,25 +1,25 @@
 #pragma once
-#include <stdint.h>
+#include <Arduino.h>
 
 #include "Behaviors/LineEvadeBehaviors/ILineEvadeBehavior.h"
 #include "Behaviors/SearchBehaviors/ISearchBehavior.h"
 #include "Strategies/IStrategy.h"
 
 // Forward declarations
-enum class Strategy_2State : uint8_t;
+enum class DefensiveStrategyState : uint8_t;
 class IBehavior;
 class IAttackBehavior;
 class ISearchBehavior;
 class ILineEvadeBehavior;
 
-class Strategy_2 : public IStrategy {
+class DefensiveStrategy : public IStrategy {
 public:
-    Strategy_2(
-        ISearchBehavior* blindSearch,
-        ISearchBehavior* focalizedSearch,
-        IAttackBehavior* standardAttack,
-        IAttackBehavior* chargeAttack,
-        ILineEvadeBehavior* standardLineEvade
+    DefensiveStrategy(
+        ISearchBehavior* DefensiveBlindSearch,
+        ISearchBehavior* FocalizedSearch,
+        IAttackBehavior* StandardAttack,
+        IAttackBehavior* ChargeAttack,
+        ILineEvadeBehavior* StandardLineEvade
     );
 
     // Implementing the IStrategy interface remains the same
@@ -32,5 +32,5 @@ private:
     // The implementation details are now hidden in the .cpp file.
     IBehavior* m_behaviorTable[5]{}; // The size must match the number of states
 
-    Strategy_2State m_currentState;
+    DefensiveStrategyState m_currentState;
 };

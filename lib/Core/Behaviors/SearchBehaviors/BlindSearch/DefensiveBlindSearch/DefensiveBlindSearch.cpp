@@ -9,16 +9,44 @@ DefensiveBlindSearch::DefensiveBlindSearch(IMotorController* motorController) :
 {}
 
 DefensiveBlindSearch::Status DefensiveBlindSearch::execute(const SensorData data) {
-    static unsigned long lastSwitch = millis();
+    enum State {
+        BRAKE,
+        TURNING,
+        WAITING
+    };
+
+    static State currentState = WAITING;
+    static unsigned long lastStateChange = millis();
     static int turnDir = 1; // 1 derecha, -1 izquierda.
 
-    if (millis() - lastSwitch > SEARCH_TURN_INTERVAL) { // ms, duración de cada dirección
-        turnDir *= -1;
-        lastSwitch = millis();
-    }
+    unsigned long currentTime = millis();
 
-    float turn = SEARCH_TURN_FACTOR * turnDir;
-    m_motorController->oppositeDirection(SEARCH_SPEED, turn);
+    switch (currentState) {
+        case WAITING:
+            m_motorController->limpMotors();
+            if (currentTime - lastStateChange > DEFENSIVE_SEARCH_WAIT_TIME) {
+                turnDir *= -1; // Cambiar dirección
+                currentState = TURNING;
+                lastStateChange = currentTime;
+            }
+            break;
+
+        case TURNING:
+            m_motorController->oppositeDirection(255 * turnDir);
+            if (currentTime - lastStateChange > DEFENSIVE_SEARCH_TURN_TIME) {
+                currentState = BRAKE;
+                lastStateChange = currentTime;
+            }
+            break;
+
+        case BRAKE:
+            m_motorController->brake();
+            if (currentTime - lastStateChange > DEFENSIVE_SEARCH_BRAKE_TIME) {
+                currentState = WAITING;
+                lastStateChange = currentTime;
+            }
+            break;
+    }
 
     return COMPLETED;
 }

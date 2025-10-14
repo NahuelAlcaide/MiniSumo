@@ -3,6 +3,8 @@
 #include "Strategies/IStrategy.h"
 
 // 1. Include ALL concrete classes that will be used
+#include "Strategies/DefaultStrategy/DefaultStrategy.h"
+
 #include "Battle/BattleInitializer/BattleInitilizer.h"
 #include "Behaviors/AttackBehaviors/Attack/StandardAttack.h"
 #include "Behaviors/SearchBehaviors/FocalizedSearch/FocalizedSearch.h"
@@ -10,25 +12,30 @@
 #include "Behaviors/LineEvadeBehaviors/StandardLineEvade/StandardLineEvade.h"
 #include "Behaviors/AttackBehaviors/Attack/ChargeAttack/ChargeAttack.h"
 #include "Factories/BehaviorFactory.h"
-#include "Strategies/DefaultStrategy/DefaultStrategy.h"
+
+#include "Strategies/DefensiveStrategy/DefensiveStrategy.h"
+
+#include "Behaviors/SearchBehaviors/BlindSearch/DefensiveBlindSearch/DefensiveBlindSearch.h"
 
 #include "Motors/MotorController/MotorController.h"
 #include "Motors/DummyMotorController/DummyMotorController.h"
 
 #include "GlobalState.h"
-#include "Strategies/Strategy_2/Strategy_2.h"
 
 MotorController g_real_motors;
 DummyMotorController g_dummy_motors;
 
+DefaultStrategy* g_default_strategy = nullptr;
+
 BlindSearch* g_blind_search_behavior = nullptr;
-focalizedSearch*   g_focalized_search_behavior = nullptr;
+FocalizedSearch*   g_focalized_search_behavior = nullptr;
 StandardAttack* g_standard_attack_behavior= nullptr;
 ChargeAttack*   g_charge_attack_behavior = nullptr;
-standardLineEvade* g_standard_line_evade_behavior = nullptr;
+StandardLineEvade* g_standard_line_evade_behavior = nullptr;
 
-DefaultStrategy* g_default_strategy = nullptr;
-Strategy_2* g_strategy_2 = nullptr;
+DefensiveStrategy* g_defensive_strategy = nullptr;
+
+DefensiveBlindSearch* g_defensive_blind_search_behavior = nullptr;
 
 static bool g_debug_mode_active = false;
 
@@ -40,7 +47,7 @@ void initializeBattleEngine() {
     activeController = initializeBehaviorsAndStrategy(g_debug_mode_active);
 
     g_strategies[0] = g_default_strategy;
-    g_strategies[1] = g_strategy_2;
+    g_strategies[1] = g_defensive_strategy;
 }
 
 void setBattleDebugMode(bool enabled) {
