@@ -16,7 +16,6 @@
 #include "ESTOP/EStop.h"
 #include "MainMenu/MainMenu.h"
 
-
 //================================================================================
 // Global Variables
 //================================================================================
@@ -30,7 +29,8 @@ void setup() {
   ledSetup();
   sensorSetup();
   initializeBattleEngine();
-  remoteSetup(); 
+  remoteSetup();
+  battleEngineSetup();
 }
 
 void loop() {

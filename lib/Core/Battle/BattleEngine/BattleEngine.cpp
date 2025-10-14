@@ -22,6 +22,8 @@
 
 #include "GlobalState.h"
 
+#include <EEPROM.h>
+
 MotorController g_real_motors;
 DummyMotorController g_dummy_motors;
 
@@ -43,6 +45,21 @@ static IStrategy* g_strategies[5];
 
 static IMotorController* activeController;
 
+static uint8_t g_current_strategy_index;
+static IStrategy* g_active_strategy = nullptr;
+
+constexpr int STRATEGY_EEPROM_ADDR = 0;
+
+void battleEngineSetup() {
+    // Load the last saved strategy index from EEPROM
+    EEPROM.get(STRATEGY_EEPROM_ADDR, g_current_strategy_index);
+
+    // Validate the index to prevent out-of-bounds access
+    if (g_current_strategy_index >= sizeof(g_strategies) / sizeof(g_strategies[0]) || g_strategies[g_current_strategy_index] == nullptr) {
+        g_current_strategy_index = 0; // Default to the first strategy if invalid
+    }
+}
+
 void initializeBattleEngine() {
     activeController = initializeBehaviorsAndStrategy(g_debug_mode_active);
 
@@ -62,14 +79,16 @@ IMotorController* getActiveMotorController()
     return activeController;
 };
 
-static uint8_t g_current_strategy_index = 0;
-static IStrategy* g_active_strategy = nullptr;
-
 void setActiveStrategy(uint8_t index) {
     if (index < sizeof(g_strategies) / sizeof(g_strategies[0]) && g_current_strategy_index != index) {
         g_current_strategy_index = index;
         g_active_strategy = g_strategies[g_current_strategy_index];
+
+        // Save the new strategy index to EEPROM
+        EEPROM.put(STRATEGY_EEPROM_ADDR, g_current_strategy_index);
+
         Serial.println("Strategy changed to index: " + String(g_current_strategy_index));
+
         if (g_active_strategy) {
             g_active_strategy->init();
         }
@@ -85,6 +104,8 @@ void battleExec() {
     if (!g_active_strategy) {
         g_active_strategy = g_strategies[g_current_strategy_index];
         g_active_strategy->init();
+
+        Serial.println("Initialized battle engine with strategy: " + String(g_current_strategy_index) + "");
     }
 
     SensorData data = readAllSensors();

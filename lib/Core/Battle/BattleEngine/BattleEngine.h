@@ -4,6 +4,8 @@
 #include "Motors/MotorController/MotorController.h"
 #include "Strategies/IStrategy.h"
 
+void battleEngineSetup();
+
 // Devuelve un pointer a la estrategía que está activa actualmente.
 IStrategy* getActiveStrategy();
 
