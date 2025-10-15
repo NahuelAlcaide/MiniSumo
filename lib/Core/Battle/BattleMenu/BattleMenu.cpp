@@ -1,8 +1,8 @@
-#include "battleMenu.h"
+#include "BattleMenu.h"
 #include <stdint.h>
-#include "config.h"
-#include "Battle/InitialMove/initialMove.h"
-#include "led/led.h"
+#include "Config.h"
+#include "Battle/InitialMove/InitialMove.h"
+#include "Led/Led.h"
 
 static battleMenuState g_battleMenuState = BATTLE_MENU_DEFAULT_STATE;
 

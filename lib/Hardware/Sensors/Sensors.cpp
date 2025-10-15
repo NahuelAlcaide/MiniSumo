@@ -1,8 +1,8 @@
-#include "config.h"
+#include "Config.h"
 #include <Arduino.h>
 #include <QTRSensors.h>
 
-#include "sensors.h"
+#include "Sensors.h"
 
 // --- Constantes ---
 // Definir el tiempo mínimo en microsegundos que tiene que pasar antes de que se puedan volver a prender los LEDs

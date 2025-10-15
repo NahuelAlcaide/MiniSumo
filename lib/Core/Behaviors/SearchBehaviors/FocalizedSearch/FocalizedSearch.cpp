@@ -1,19 +1,19 @@
 #include "FocalizedSearch.h"
 
 #include <Arduino.h>
-#include "config.h"
-#include "../Hardware/Sensors/sensors.h"
+#include "Config.h"
+#include "../Hardware/Sensors/Sensors.h"
 
-static focalizedSearch::Status g_status = focalizedSearch::COMPLETED;
+static FocalizedSearch::Status g_status = FocalizedSearch::COMPLETED;
 
-static focalizedSearch::lastDirection lastDir = focalizedSearch::NONE;
+static FocalizedSearch::lastDirection lastDir = FocalizedSearch::NONE;
 
 
-focalizedSearch::focalizedSearch(IMotorController* motorController) :
+FocalizedSearch::FocalizedSearch(IMotorController* motorController) :
     m_motorController(motorController)
 {}
 
-focalizedSearch::Status focalizedSearch::execute(const SensorData data) {
+FocalizedSearch::Status FocalizedSearch::execute(const SensorData data) {
     static unsigned long lastSeenTime = 0;
 
     g_status = RUNNING;

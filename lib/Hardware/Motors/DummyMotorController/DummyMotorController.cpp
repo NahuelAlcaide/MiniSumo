@@ -1,4 +1,4 @@
-#include "config.h"
+#include "Config.h"
 #include <Arduino.h>
 
 #include "DummyMotorController.h"
@@ -19,7 +19,6 @@ void DummyMotorController::limpMotors() {
     digitalWrite(BIN2, LOW);
     analogWrite(PWM_RIGHT, 0);
     analogWrite(PWM_LEFT, 0);
-    Serial.println("limp");
 }
 
 

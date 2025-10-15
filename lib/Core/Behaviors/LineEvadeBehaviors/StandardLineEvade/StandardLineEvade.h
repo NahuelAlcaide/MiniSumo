@@ -3,7 +3,7 @@
 #include "Behaviors/LineEvadeBehaviors/ILineEvadeBehavior.h"
 #include "Motors/IMotorController.h"
 
-class standardLineEvade : public ILineEvadeBehavior {
+class StandardLineEvade : public ILineEvadeBehavior {
 public:
 
     enum EvadeState {
@@ -25,7 +25,7 @@ public:
     */
     Status execute(SensorData data) override;
 
-    explicit standardLineEvade(IMotorController* motorController);
+    explicit StandardLineEvade(IMotorController* motorController);
 private:
     IMotorController* m_motorController; // Contiene un pointer a la capa de abstracción de los motores// Contiene un pointer a la capa de abstracción de los motores
 };

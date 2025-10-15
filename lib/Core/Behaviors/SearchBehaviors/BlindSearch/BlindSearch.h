@@ -3,10 +3,10 @@
 #include "Behaviors/SearchBehaviors/ISearchBehavior.h"
 #include "Motors/IMotorController.h"
 
-class blindSearch : public ISearchBehavior {
+class BlindSearch : public ISearchBehavior {
 public:
     /**
-    * @brief Loop de busqueda focalizada.
+    * @brief Loop de busqueda ciega.
     *
     * Función que implementa un comportamiento de búsqueda ciega.
     *
@@ -17,7 +17,7 @@ public:
     */
     Status execute(SensorData data) override;
 
-    explicit blindSearch(IMotorController* motorController);
-private:
+    explicit BlindSearch(IMotorController* motorController);
+protected:
     IMotorController* m_motorController; // Contiene un pointer a la capa de abstracción de los motores
 };

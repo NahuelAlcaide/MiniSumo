@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "led.h"
-#include "config.h"
+#include "Led.h"
+#include "Config.h"
 
 //================================================================================
 // Internal State
@@ -162,6 +162,15 @@ void ledBattleMenu() {
     led_step = 0;
     led_repeat = 0;
     led_max_repeat = 3;
+    led_active = true;
+    led_last_update = millis();
+}
+
+void ledStrategyMenu() {
+    led_pattern = LED_PATTERN_MAIN_MENU;
+    led_step = 0;
+    led_repeat = 0;
+    led_max_repeat = 4;
     led_active = true;
     led_last_update = millis();
 }

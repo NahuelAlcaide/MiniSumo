@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Sensors/sensors.h"
+#include "Sensors/Sensors.h"
 #include "Behaviors/AttackBehaviors/IAttackBehavior.h"
 #include "Motors/IMotorController.h"
 
-class standardAttack : public IAttackBehavior {
+class StandardAttack : public IAttackBehavior {
 public:
     /**
     * @brief Loop de ataque.
@@ -17,7 +17,7 @@ public:
     */
     Status execute(SensorData data) override;
 
-    explicit standardAttack(IMotorController* motorController);
+    explicit StandardAttack(IMotorController* motorController);
 protected:
     IMotorController* m_motorController; // Contiene un pointer a la capa de abstracción de los motores
 };

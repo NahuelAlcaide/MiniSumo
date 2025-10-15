@@ -1,7 +1,7 @@
 #pragma once
-#include "Behaviors/AttackBehaviors/Attack/standardAttack.h"
+#include "Behaviors/AttackBehaviors/Attack/StandardAttack.h"
 
-class chargeAttack : public standardAttack {
+class ChargeAttack : public StandardAttack {
 public:
     /**
     * @brief Loop de ataque.
@@ -13,5 +13,5 @@ public:
     *
     */
     Status execute(SensorData data) override;
-    explicit chargeAttack(IMotorController* motorController);
+    explicit ChargeAttack(IMotorController* motorController);
 };
