@@ -8,11 +8,8 @@ public:
 
     enum EvadeState {
         IDLE,
-        INITIAL_BRAKING,
         TURNING,
         NORMAL_REVERSING,
-        PANIC_REVERSING,
-        END_BRAKING
     };
 
     /**
