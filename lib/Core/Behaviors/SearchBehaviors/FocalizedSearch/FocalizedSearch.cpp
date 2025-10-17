@@ -19,28 +19,30 @@ FocalizedSearch::Status FocalizedSearch::execute(const SensorData data) {
     g_status = RUNNING;
 
     // Chekear sensores
-    if (data.center > SEEK_THRESHOLD) {
+    if (data.center > F_SEARCH_THRESHOLD) {
         lastDir = CENTER;
         lastSeenTime = millis();
-    }else if (data.left > SEEK_THRESHOLD) {
+    }else if (data.left > F_SEARCH_THRESHOLD) {
         lastDir = LEFT;
         lastSeenTime = millis();
-    } else if (data.right > SEEK_THRESHOLD) {
+    } else if (data.right > F_SEARCH_THRESHOLD) {
         lastDir = RIGHT;
         lastSeenTime = millis();
     }
 
     // continuar girando en la última dirección que leyó por encima del threshold mientras el timeout no se acabe
-    if (lastDir != NONE && (millis() - lastSeenTime < SEEK_TURN_TIMEOUT)) {
+    if (lastDir != NONE && (millis() - lastSeenTime < F_SEARCH_TURN_TIMEOUT))
+    {
+        int motorSpeed = F_SEARCH_SPEED;
         switch(lastDir) {
         case RIGHT:
-            m_motorController->sameDirection(SEEK_SPEED, SEEK_TURN_RATE);
+            m_motorController->sameDirection(motorSpeed, F_SEARCH_TURN_RATE);
             break;
         case CENTER:
-            m_motorController->sameDirection(SEEK_SPEED, 0);
+            m_motorController->sameDirection(motorSpeed, 0);
             break;
         case LEFT:
-            m_motorController->sameDirection(SEEK_SPEED, -SEEK_TURN_RATE);
+            m_motorController->sameDirection(motorSpeed, -F_SEARCH_TURN_RATE);
             break;
         }
     } else {

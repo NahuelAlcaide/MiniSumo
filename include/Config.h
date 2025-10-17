@@ -69,11 +69,11 @@
 #define DEFENSIVE_SEARCH_TURN_TIME 80 // ms
 #define DEFENSIVE_SEARCH_WAIT_TIME 1500 // ms
 
-// -------------------- Seek --------------------
-#define SEEK_THRESHOLD 60
-#define SEEK_TURN_RATE 0.03f // Velocidad de giro al buscar
-#define SEEK_SPEED 90 // Velocidad de avance al buscar
-#define SEEK_TURN_TIMEOUT 1000 // ms
+// -------------------- Focalized Search --------------------
+#define F_SEARCH_THRESHOLD 60
+#define F_SEARCH_TURN_RATE 0.03f // Velocidad de giro al buscar
+#define F_SEARCH_SPEED 90 // Velocidad de avance al buscar
+#define F_SEARCH_TURN_TIMEOUT 1000 // ms
 
 // -------------------- Attack --------------------
 #define ATTACK_THRESHOLD 150
@@ -83,7 +83,7 @@
 #define LINE_EVADE_THRESHOLD 200 // Negro en 800 aprox, arranca a ver la linea en 200 con un mínimo de 50
 // Timings de giro
 #define LINE_EVADE_TURN_TIME 70 // ms
-#define LINE_EVADE_TURN_RATE 0.1f // Velocidad de giro al evadir línea
+#define LINE_EVADE_TURN_RATE 1.0f // Velocidad de giro al evadir línea
 #define LINE_EVADE_TURN_SPEED 220 // Velocidad de giro al evadir línea
 // Timings de reversa
 #define LINE_EVADE_REVERSE_TIME 200 // ms

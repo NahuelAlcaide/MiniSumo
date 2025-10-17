@@ -28,7 +28,7 @@ bool execBattleInit(SensorData data)
         return false;
         case BATTLE_INIT_STATE_INITIAL_MOVE:
             static unsigned int turnTime = execInitialMove();
-            if(data.left > SEEK_THRESHOLD || data.center > SEEK_THRESHOLD || data.right > SEEK_THRESHOLD){
+            if(data.left > F_SEARCH_THRESHOLD || data.center > F_SEARCH_THRESHOLD || data.right > F_SEARCH_THRESHOLD){
                 g_battleInitState = BATTLE_INIT_STATE_BATTLE;
                 return false;
             }else if (millis() - startTime  >= turnTime) {
