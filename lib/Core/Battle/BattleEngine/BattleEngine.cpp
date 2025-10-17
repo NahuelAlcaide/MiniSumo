@@ -24,6 +24,8 @@
 
 #include <EEPROM.h>
 
+#include "Debug/StrategyDebug/StrategyDebug.h"
+
 MotorController g_real_motors;
 DummyMotorController g_dummy_motors;
 
@@ -112,5 +114,9 @@ void battleExec() {
     if (execBattleInit(data))
     {
         g_active_strategy->execute(data);
+    }
+
+    if (g_debug_mode_active) {
+        sendRawDebugPacket(g_current_strategy_index, g_active_strategy, data, activeController);
     }
 }

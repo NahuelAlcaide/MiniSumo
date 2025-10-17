@@ -22,4 +22,10 @@ public:
     void brake() override;
 
     void limpMotors() override;
+
+    const MotorDebugInfo& getDebugInfo() const override;
+
+private:
+    void updateDebugValues(MotorCommand command, int dirPow, float turn, uint8_t leftSpeed, uint8_t rightSpeed);
+    MotorDebugInfo m_debugInfo;
 };

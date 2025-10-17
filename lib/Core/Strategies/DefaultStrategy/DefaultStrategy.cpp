@@ -23,13 +23,13 @@ enum class DefaultStrategyState : uint8_t {
     COUNT
 };
 
-//static const char* g_stateNames[] = {
-//    "CHARGING",
-//    "ATTACKING",
-//    "EVADING_LINE",
-//    "FOCALIZED_SEARCHING",
-//    "BLIND_SEARCHING"
-//};
+static const char* g_stateNames[] = {
+    "CHARGING",
+    "ATTACKING",
+    "EVADING_LINE",
+    "FOCALIZED_SEARCHING",
+    "BLIND_SEARCHING"
+};
 
 // The constructor now works because the compiler can see that ISeekBehavior and
 // IAttackBehavior are both valid types of IBehavior.
@@ -76,7 +76,7 @@ void DefaultStrategy::execute(const SensorData& data) {
         suggestedState = DefaultStrategyState::ATTACKING;
     } else if(data.lineLeft < LINE_EVADE_THRESHOLD || data.lineRight < LINE_EVADE_THRESHOLD) {
         suggestedState = DefaultStrategyState::EVADING_LINE;
-    } else if (data.left > SEEK_THRESHOLD || data.center > SEEK_THRESHOLD || data.right > SEEK_THRESHOLD) {
+    } else if (data.left > F_SEARCH_THRESHOLD || data.center > F_SEARCH_THRESHOLD || data.right > F_SEARCH_THRESHOLD) {
         suggestedState = DefaultStrategyState::FOCALIZED_SEARCHING;
     } else {
         suggestedState = DefaultStrategyState::BlIND_SEARCHING;
@@ -100,9 +100,16 @@ void DefaultStrategy::execute(const SensorData& data) {
         m_currentState = suggestedState;
     }
     // If neither condition is met, the current behavior holds its state.
-
-    //Serial.print("Current State: ");
-    //Serial.print(g_stateNames[static_cast<size_t>(m_currentState)]);
-    //printSensorReadout(data);
 }
 
+const char* DefaultStrategy::getCurrentStateName() const {
+    auto stateIndex = static_cast<size_t>(m_currentState);
+    if (stateIndex < static_cast<size_t>(DefaultStrategyState::COUNT)) {
+        return g_stateNames[stateIndex];
+    }
+    return "UNKNOWN";
+}
+
+uint8_t DefaultStrategy::getCurrentStateId() const {
+    return static_cast<uint8_t>(m_currentState);
+}

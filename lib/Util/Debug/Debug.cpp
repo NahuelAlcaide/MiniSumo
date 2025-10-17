@@ -99,6 +99,10 @@ void debug(uint16_t remoteCommand, IMotorController* motors) {
     if (g_enableControlTest) {
         controlTest(motors);
     }
+
+    if (g_enableStrategyDebug) {
+
+    }
 }
 
 void clearDebugFlags() {

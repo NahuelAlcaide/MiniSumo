@@ -27,6 +27,9 @@ public:
     void init() override;
     void execute(const SensorData& data) override;
 
+    const char* getCurrentStateName() const override;
+    uint8_t getCurrentStateId() const override;
+
 private:
     // This array will hold our behavior pointers. Its size is determined at compile time.
     // The implementation details are now hidden in the .cpp file.
