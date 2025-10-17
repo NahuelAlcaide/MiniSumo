@@ -7,8 +7,17 @@ StandardAttack::StandardAttack(IMotorController* motorController) :
 
 StandardAttack::Status StandardAttack::execute(const SensorData data) {
 
-    int power = static_cast<int>((data.center - ATTACK_THRESHOLD) * (255 - ATTACK_POWER_SCALE / 1000.0 - ATTACK_THRESHOLD) + ATTACK_POWER_SCALE);
-    float diff = static_cast<int>((data.right - data.left) * (1 / 1000.0));
+    float power_f = static_cast<float>(data.center - ATTACK_THRESHOLD) * (255 - ATTACK_POWER_SCALE) / (999 - ATTACK_THRESHOLD) + ATTACK_POWER_SCALE;
+
+    int power = static_cast<int>(power_f);
+
+    if (power > 255) {
+        power = 255;
+    } else if (power < 0) {
+        power = 0;
+    }
+
+    float diff = (data.right - data.left) * (1 / 1000.0);
 
     m_motorController->sameDirection(power, diff);
 
