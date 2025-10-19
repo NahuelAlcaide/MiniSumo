@@ -1,4 +1,4 @@
-#include "Config.h"
+    #include "Config.h"
 #include <Arduino.h>
 
 #include "Motors/MotorController/MotorController.h"
@@ -58,14 +58,14 @@ void MotorController::sameDirection(int dirPow, float turn) {
 
     uint8_t rightSpeed, leftSpeed;
     if (turn > 0) {
-        rightSpeed = static_cast<uint8_t>(dirPow * (1 - fabs(turn)));
-        leftSpeed = static_cast<uint8_t>(dirPow);
+        rightSpeed = static_cast<uint8_t>(abs(dirPow) * (1 - fabs(turn)));
+        leftSpeed = static_cast<uint8_t>(abs(dirPow));
     } else if (turn < 0) {
-        rightSpeed = static_cast<uint8_t>(dirPow);
-        leftSpeed = static_cast<uint8_t>(dirPow * (1 - fabs(turn)));
+        rightSpeed = static_cast<uint8_t>(abs(dirPow));
+        leftSpeed = static_cast<uint8_t>(abs(dirPow) * (1 - fabs(turn)));
     } else {
-        rightSpeed = static_cast<uint8_t>(dirPow);
-        leftSpeed = static_cast<uint8_t>(dirPow);
+        rightSpeed = static_cast<uint8_t>(abs(dirPow));
+        leftSpeed = static_cast<uint8_t>(abs(dirPow));
     }
     analogWrite(PWM_RIGHT, rightSpeed);
     analogWrite(PWM_LEFT, leftSpeed);
