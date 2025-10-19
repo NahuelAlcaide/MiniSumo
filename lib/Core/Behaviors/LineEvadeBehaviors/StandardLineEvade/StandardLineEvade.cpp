@@ -7,6 +7,7 @@
 // --- State-Tracking Variables ---
 static unsigned long phaseStartTime = 0;
 static StandardLineEvade::EvadeState evadeState = StandardLineEvade::IDLE;
+
 // Stores the direction of the initial hit (-1 left, 1 right, 0 both)
 static int saved_direction = 0;
 static StandardLineEvade::Status g_status = StandardLineEvade::COMPLETED;
@@ -16,17 +17,23 @@ StandardLineEvade::StandardLineEvade(IMotorController* motorController) :
 {}
 
 StandardLineEvade::Status StandardLineEvade::execute(SensorData data) {
-
     switch (evadeState) {
         case IDLE: {
             int current_direction = 0;
             if (data.lineLeft < LINE_EVADE_THRESHOLD) { current_direction -= 1; }
             if (data.lineRight < LINE_EVADE_THRESHOLD) { current_direction += 1; }
 
+            if (data.lineRight < LINE_EVADE_THRESHOLD && data.lineLeft < LINE_EVADE_THRESHOLD) {
+                evadeState = DUAL_SENSOR_REVERSING;
+                phaseStartTime = millis();
+                g_status = RUNNING;
+                break;
+            }
+
             // If a line is detected, start the maneuver and set status to RUNNING
             if (data.lineLeft < LINE_EVADE_THRESHOLD || data.lineRight < LINE_EVADE_THRESHOLD) {
                 saved_direction = current_direction;
-                evadeState = NORMAL_REVERSING;
+                evadeState = SINGLE_SENSOR_REVERSING;
                 phaseStartTime = millis();
                 g_status = RUNNING;
             } else {
@@ -35,11 +42,11 @@ StandardLineEvade::Status StandardLineEvade::execute(SensorData data) {
             break;
         }
 
-        case NORMAL_REVERSING: {
+        case SINGLE_SENSOR_REVERSING: {
             // Reverse straight for a fixed duration
-            m_motorController->sameDirection(-LINE_EVADE_REVERSE_SPEED, 0);
+            m_motorController->sameDirection(-LINE_EVADE_S_REVERSE_SPEED, 0.0f);
 
-            if (millis() - phaseStartTime > LINE_EVADE_REVERSE_TIME) {
+            if (millis() - phaseStartTime > LINE_EVADE_S_REVERSE_TIME) {
                 evadeState = TURNING;
                 phaseStartTime = millis();
             }
@@ -52,7 +59,32 @@ StandardLineEvade::Status StandardLineEvade::execute(SensorData data) {
             int turnValue = -saved_direction * 255;
             m_motorController->oppositeDirection(turnValue);
 
-            if (millis() - phaseStartTime > LINE_EVADE_TURN_TIME) {
+            if (millis() - phaseStartTime > LINE_EVADE_S_TURN_TIME) {
+                m_motorController->limpMotors(); // Stop motors before completing
+                evadeState = IDLE;
+                g_status = COMPLETED; // Now the maneuver is fully complete
+            }
+            // g_status remains RUNNING
+            break;
+        }
+
+        case DUAL_SENSOR_REVERSING: {
+            m_motorController->sameDirection(-LINE_EVADE_D_REVERSE_SPEED, 0.0f);
+
+            if (millis() - phaseStartTime > LINE_EVADE_D_REVERSE_TIME) {
+                evadeState = DUAL_SENSOR_TURNING;
+                phaseStartTime = millis();
+            }
+
+            break;
+        }
+
+        case DUAL_SENSOR_TURNING: {
+            // Turn away from the initially detected line for a fixed duration
+            int turnValue = -saved_direction * 255;
+            m_motorController->oppositeDirection(turnValue);
+
+            if (millis() - phaseStartTime > LINE_EVADE_D_TURN_TIME) {
                 m_motorController->limpMotors(); // Stop motors before completing
                 evadeState = IDLE;
                 g_status = COMPLETED; // Now the maneuver is fully complete

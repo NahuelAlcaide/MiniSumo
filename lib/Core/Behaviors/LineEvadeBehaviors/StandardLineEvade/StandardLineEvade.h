@@ -9,7 +9,9 @@ public:
     enum EvadeState {
         IDLE,
         TURNING,
-        NORMAL_REVERSING,
+        SINGLE_SENSOR_REVERSING,
+        DUAL_SENSOR_REVERSING,
+        DUAL_SENSOR_TURNING
     };
 
     /**
