@@ -8,11 +8,11 @@ void remoteSetup() {
     IrReceiver.begin(IR_RECEIVE_PIN, ENABLE_LED_FEEDBACK);
 }
 
-void printRemoteData(){
-  IrReceiver.printIRResultShort(&Serial);
-  IrReceiver.printIRSendUsage(&Serial);
-  Serial.println();
-}
+//void printRemoteData(){
+//  IrReceiver.printIRResultShort(&Serial);
+//  IrReceiver.printIRSendUsage(&Serial);
+//  Serial.println();
+//}
 
 uint16_t remoteHandler() {
   if (IrReceiver.decode()) {
@@ -21,7 +21,7 @@ uint16_t remoteHandler() {
     IrReceiver.resume(); 
     if(remoteData.address == REMOTE_ADDRESS) {
       ledBlinkQuick();
-      printRemoteData();
+      //printRemoteData();
       return remoteData.command;
     } else {
       //printRemoteData();
