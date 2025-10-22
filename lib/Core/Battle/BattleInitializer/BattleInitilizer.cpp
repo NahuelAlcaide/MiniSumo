@@ -8,8 +8,13 @@
 
 static battleInitState g_battleInitState = BATTLE_INIT_STATE_IDLE;
 
+static int g_initialMoveTime = 0;
+static unsigned long g_initialMoveStartTime = getInitialMoveTime();
+
 void resetBattleInitState() {
+    resetInitialMove();
     g_battleInitState = BATTLE_INIT_STATE_IDLE;
+    g_initialMoveStartTime = 0;
 }
 
 bool execBattleInit(SensorData data)
@@ -17,6 +22,7 @@ bool execBattleInit(SensorData data)
     switch(g_battleInitState) {
         case BATTLE_INIT_STATE_IDLE:
             Serial.println("Battle mode.");
+            g_initialMoveTime = getInitialMoveTime();
             g_battleInitState = BATTLE_INIT_STATE_COUNTDOWN;
             return false;
         case BATTLE_INIT_STATE_COUNTDOWN:
@@ -24,19 +30,17 @@ bool execBattleInit(SensorData data)
             ledBlinkQuick();
             delay(5000);
             g_battleInitState = BATTLE_INIT_STATE_INITIAL_MOVE;
-            static unsigned long startTime = millis();
-        return false;
+            g_initialMoveStartTime = millis();
+            return false;
         case BATTLE_INIT_STATE_INITIAL_MOVE:
-            static unsigned int turnTime = execInitialMove();
+            execInitialMove();
             if(data.left > F_SEARCH_THRESHOLD || data.center > F_SEARCH_THRESHOLD || data.right > F_SEARCH_THRESHOLD){
                 g_battleInitState = BATTLE_INIT_STATE_BATTLE;
-                return false;
-            }else if (millis() - startTime  >= turnTime) {
-                g_battleInitState = BATTLE_INIT_STATE_BATTLE;
-                return false;
-            } else {
-                return false;
             }
+            if (millis() - g_initialMoveStartTime  >= g_initialMoveTime) {
+                g_battleInitState = BATTLE_INIT_STATE_BATTLE;
+            }
+            return false;
         case BATTLE_INIT_STATE_BATTLE:
             return true;
     }
