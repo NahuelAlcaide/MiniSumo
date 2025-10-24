@@ -11,7 +11,7 @@ static bool g_emergencyStop = false;
 
 void resetEmergencyStop() {
     g_emergencyStop = false;
-    clearDebugFlags();
+    g_debugModule.reset();
     ledMainMenu();
     resetSystemState();
     resetBattleInitState();

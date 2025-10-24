@@ -76,6 +76,10 @@ void setBattleDebugMode(bool enabled) {
     }
 }
 
+bool getBattleDebugMode() {
+    return g_debug_mode_active;
+}
+
 IMotorController* getActiveMotorController()
 {
     return activeController;

@@ -2,6 +2,7 @@
 #include <Arduino.h>
 
 #include "Config.h"
+#include "Battle/BattleEngine/BattleEngine.h"
 #include "Battle/InitialMove/InitialMove.h"
 #include "Led/Led.h"
 #include "Sensors/Sensors.h"
