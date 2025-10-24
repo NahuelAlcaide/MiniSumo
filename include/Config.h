@@ -55,9 +55,9 @@
 // ============================================================
 
 // -------------------- Initial Move --------------------
-#define INIT_TURN_TIME 80 // ms, tiempo de giro derecha / izquierda
-#define INIT_FORWARD_TURN_TIME 30 // ms, tiempo de giro diagonal adelante
-#define INIT_BACKWARD_TURN_TIME 130 // ms, tiempo de giro diagonal atras
+#define INIT_TURN_TIME 110 // ms, tiempo de giro derecha / izquierda
+#define INIT_FORWARD_TURN_TIME 80 // ms, tiempo de giro diagonal adelante
+#define INIT_BACKWARD_TURN_TIME 170 // ms, tiempo de giro diagonal atras
 
 // -------------------- Blind search --------------------
 #define SEARCH_SPEED 45
@@ -122,6 +122,7 @@
 #define REMOTE_CMD_CONTROL_TEST   0x2 // Toggle control test
 #define REMOTE_CMD_INVERT_LINE    0x3 // Invertir sensores de línea
 #define REMOTE_CMD_STRATEGY_DEBUG 0x4 // Debug de estrategia
+#define REMOTE_CMD_CLEAN_WHEELS   0x5 // Limpiar ruedas
 
 // -------------------- Comandos para battle menu --------------------
 #define REMOTE_CMD_BATTLE_START   0x20 // Iniciar secuencia de batalla
