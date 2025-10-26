@@ -55,13 +55,13 @@
 // ============================================================
 
 // -------------------- Initial Move --------------------
-#define INIT_TURN_TIME 110 // ms, tiempo de giro derecha / izquierda
-#define INIT_FORWARD_TURN_TIME 80 // ms, tiempo de giro diagonal adelante
-#define INIT_BACKWARD_TURN_TIME 170 // ms, tiempo de giro diagonal atras
+#define INIT_TURN_TIME 100 // ms, tiempo de giro derecha / izquierda
+#define INIT_FORWARD_TURN_TIME 60 // ms, tiempo de giro diagonal adelante
+#define INIT_BACKWARD_TURN_TIME 160 // ms, tiempo de giro diagonal atras
 
 // -------------------- Blind search --------------------
-#define SEARCH_SPEED 45
-#define SEARCH_TURN_FACTOR 0.95f
+#define SEARCH_SPEED 100
+#define SEARCH_TURN_FACTOR 0.98f
 #define SEARCH_TURN_INTERVAL 1000 // ms
 
 // -------------------- Defensive Blind search --------------------
@@ -82,10 +82,10 @@
 // -------------------- Line Evade --------------------
 #define LINE_EVADE_THRESHOLD 200 // Negro en 800 aprox, arranca a ver la linea en 200 con un mínimo de 50
 // Timings de giro de un sensor
-#define LINE_EVADE_S_TURN_TIME 110 // ms
+#define LINE_EVADE_S_TURN_TIME 160 // ms
 #define LINE_EVADE_S_TURN_SPEED 255 // Velocidad de giro al evadir línea
 // Timings de reversa de un sensor
-#define LINE_EVADE_S_REVERSE_TIME 100 // ms
+#define LINE_EVADE_S_REVERSE_TIME 80 // ms
 #define LINE_EVADE_S_REVERSE_SPEED 255 // 0-255
 
 // Timing de giro de dos sensores
