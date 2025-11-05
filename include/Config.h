@@ -9,8 +9,8 @@
 // ============================================================
 
 // -------------------- Motor derecho --------------------
-#define AIN1 4 // Adelante
-#define AIN2 5 // Atrás
+#define AIN1 5 // Adelante
+#define AIN2 4 // Atrás
 #define PWM_RIGHT 9
 
 // -------------------- Motor izquierdo --------------------
@@ -55,25 +55,25 @@
 // ============================================================
 
 // -------------------- Initial Move --------------------
-#define INIT_TURN_TIME 80 // ms, tiempo de giro derecha / izquierda
-#define INIT_FORWARD_TURN_TIME 30 // ms, tiempo de giro diagonal adelante
-#define INIT_BACKWARD_TURN_TIME 130 // ms, tiempo de giro diagonal atras
+#define INIT_TURN_TIME 100 // ms, tiempo de giro derecha / izquierda
+#define INIT_FORWARD_TURN_TIME 60 // ms, tiempo de giro diagonal adelante
+#define INIT_BACKWARD_TURN_TIME 160 // ms, tiempo de giro diagonal atras
 
 // -------------------- Blind search --------------------
 #define SEARCH_SPEED 100
-#define SEARCH_TURN_FACTOR 0.07f
-#define SEARCH_TURN_INTERVAL 800 // ms
+#define SEARCH_TURN_FACTOR 0.98f
+#define SEARCH_TURN_INTERVAL 1000 // ms
 
 // -------------------- Defensive Blind search --------------------
 #define DEFENSIVE_SEARCH_BRAKE_TIME 50 // ms
-#define DEFENSIVE_SEARCH_TURN_TIME 80 // ms
-#define DEFENSIVE_SEARCH_WAIT_TIME 1500 // ms
+#define DEFENSIVE_SEARCH_TURN_TIME 60 // ms
+#define DEFENSIVE_SEARCH_WAIT_TIME 1200 // ms
 
 // -------------------- Focalized Search --------------------
 #define F_SEARCH_THRESHOLD 60
-#define F_SEARCH_TURN_RATE 0.03f // Velocidad de giro al buscar
-#define F_SEARCH_SPEED 90 // Velocidad de avance al buscar
-#define F_SEARCH_TURN_TIMEOUT 1000 // ms
+#define F_SEARCH_TURN_RATE 0.85f // Velocidad de giro al buscar
+#define F_SEARCH_SPEED 70 // Velocidad de avance al buscar
+#define F_SEARCH_TURN_TIMEOUT 2000 // ms
 
 // -------------------- Attack --------------------
 #define ATTACK_THRESHOLD 150
@@ -81,20 +81,19 @@
 
 // -------------------- Line Evade --------------------
 #define LINE_EVADE_THRESHOLD 200 // Negro en 800 aprox, arranca a ver la linea en 200 con un mínimo de 50
-// Timings de giro
-#define LINE_EVADE_TURN_TIME 70 // ms
-#define LINE_EVADE_TURN_RATE 1.0f // Velocidad de giro al evadir línea
-#define LINE_EVADE_TURN_SPEED 220 // Velocidad de giro al evadir línea
-// Timings de reversa
-#define LINE_EVADE_REVERSE_TIME 200 // ms
-#define LINE_EVADE_REVERSE_SPEED 220 // 0-255
-#define LINE_EVADE_REVERSE_TURN_RATE 0.2f // Velocidad de giro al evadir línea en reversa
-// Timings de frenos
-#define LINE_EVADE_END_BRAKE_TIME 70 // ms
-#define LINE_EVADE_START_BRAKE_TIME 70 // ms
-// Panico
-#define LINE_EVADE_PANIC_TIMER 500 // ms, tiempo máximo de giro antes de entrar en pánico
-#define LINE_EVADE_PANIC_REVERSE_TIME 1500 // ms, tiempo de
+// Timings de giro de un sensor
+#define LINE_EVADE_S_TURN_TIME 160 // ms
+#define LINE_EVADE_S_TURN_SPEED 255 // Velocidad de giro al evadir línea
+// Timings de reversa de un sensor
+#define LINE_EVADE_S_REVERSE_TIME 80 // ms
+#define LINE_EVADE_S_REVERSE_SPEED 255 // 0-255
+
+// Timing de giro de dos sensores
+#define LINE_EVADE_D_TURN_TIME 200 // ms
+#define LINE_EVADE_D_TURN_SPEED 255 // Velocidad de giro al evadir línea
+// Timing de reversa de dos sensores
+#define LINE_EVADE_D_REVERSE_TIME 300 // ms
+#define LINE_EVADE_D_REVERSE_SPEED 255 // 0-255
 
 // ============================================================
 //               COMANDOS CONTROL REMOTO
@@ -123,6 +122,7 @@
 #define REMOTE_CMD_CONTROL_TEST   0x2 // Toggle control test
 #define REMOTE_CMD_INVERT_LINE    0x3 // Invertir sensores de línea
 #define REMOTE_CMD_STRATEGY_DEBUG 0x4 // Debug de estrategia
+#define REMOTE_CMD_CLEAN_WHEELS   0x5 // Limpiar ruedas
 
 // -------------------- Comandos para battle menu --------------------
 #define REMOTE_CMD_BATTLE_START   0x20 // Iniciar secuencia de batalla

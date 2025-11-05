@@ -15,6 +15,8 @@ void initializeBattleEngine();
 
 void setBattleDebugMode(bool enabled);
 
+bool getBattleDebugMode();
+
 void setActiveStrategy(uint8_t index);
 
 IMotorController* getActiveMotorController();

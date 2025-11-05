@@ -15,9 +15,6 @@ ChargeAttack::Status ChargeAttack::execute(const SensorData data) {
     if (data.center > ATTACK_THRESHOLD)
     {
         return RUNNING;
-    } else
-    {
-        return COMPLETED;
     }
-
+    return COMPLETED;
 }

@@ -5,13 +5,14 @@
 #include "Battle/BattleEngine/BattleEngine.h"
 #include "Battle/BattleMenu/BattleMenu.h"
 #include "Debug/Debug.h"
-#include "ESTOP/EStop.h"
 #include "Led/Led.h"
 #include "Strategies/StrategyMenu/StrategyMenu.h"
 
 class IMotorController;
 
 static mainMenuState g_mainMenuState = STATE_DEFAULT;
+
+Debug g_debugModule;
 
 void setMainMenuState(mainMenuState state) {
     g_mainMenuState = state;
@@ -23,7 +24,7 @@ static void processRemoteCommands(uint16_t remoteCommand) {
             if (g_mainMenuState != STATE_DEBUG_MENU){
                 g_mainMenuState = STATE_DEBUG_MENU;
                 Serial.print("State changed: DEBUG_MENU\n");
-                clearDebugFlags();
+                g_debugModule.reset();
                 ledBlinkDebugMode();
                 Serial.println("Debug mode is now ON");
                 break;
@@ -71,7 +72,7 @@ void mainMenu(uint16_t remoteCommand) {
             break;
         case STATE_DEBUG_MENU: {
             IMotorController* motors = getActiveMotorController();
-            debug(remoteCommand, motors);
+            g_debugModule.update(remoteCommand, motors);
             break;
         }
         case STATE_STRATEGY_MENU:

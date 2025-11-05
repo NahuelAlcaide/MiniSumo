@@ -1,6 +1,7 @@
 #include "EStop.h"
 
 #include "Battle/BattleEngine/BattleEngine.h"
+#include "Battle/BattleInitializer/BattleInitilizer.h"
 #include "Debug/Debug.h"
 #include "Led/Led.h"
 #include "MainMenu/MainMenu.h"
@@ -10,9 +11,10 @@ static bool g_emergencyStop = false;
 
 void resetEmergencyStop() {
     g_emergencyStop = false;
-    clearDebugFlags();
+    g_debugModule.reset();
     ledMainMenu();
     resetSystemState();
+    resetBattleInitState();
 }
 
 bool getEmergencyStopState() {
