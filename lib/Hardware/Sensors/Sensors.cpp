@@ -21,9 +21,6 @@ bool INVERT_LINE = false;
  * @return El valor leído del fototransistor, con el ruido ambiental restado.
  */
 int pulse(int sensor, int led) {
-    // Leer el valor con el LED apagado para capturar el ruido ambiental
-    int noise = analogRead(sensor);
-    
     // Encender el LED IR
     digitalWrite(led, HIGH);
     // Esperar el tiempo necesario para que el LED influya en la lectura
@@ -34,6 +31,9 @@ int pulse(int sensor, int led) {
     
     // Apagar el LED IR
     digitalWrite(led, LOW);
+
+    // Leer el valor con el LED apagado para capturar el ruido ambiental
+    int noise = analogRead(sensor);
     
     // Restar el ruido ambiente de la lectura
     int denoised = reading - noise;
@@ -81,18 +81,18 @@ SensorData readAllSensors() {
         if (lastValues.center < 0) {
             lastValues.center = 0; // Evita valores negativos
         }
-
-        // Lee los sensores de línea.
-        linea.read(valoresLinea);
-        
-        if (INVERT_LINE) {
-            valoresLinea[0] = static_cast<uint16_t>(map(valoresLinea[0], 2500, 0, 0, 2500));
-            valoresLinea[1] = static_cast<uint16_t>(map(valoresLinea[1], 2500, 0, 0, 2500));
-        }
-
-        lastValues.lineLeft = valoresLinea[0];
-        lastValues.lineRight = valoresLinea[1];
     }
+
+    // Lee los sensores de línea. Al estar fuera del check de cooldown el valor nunca es stale.
+    linea.read(valoresLinea);
+
+    if (INVERT_LINE) {
+        valoresLinea[0] = static_cast<uint16_t>(map(valoresLinea[0], 2500, 0, 0, 2500));
+        valoresLinea[1] = static_cast<uint16_t>(map(valoresLinea[1], 2500, 0, 0, 2500));
+    }
+
+    lastValues.lineLeft = valoresLinea[0];
+    lastValues.lineRight = valoresLinea[1];
 
     // Devuelve los últimos valores leídos (ya sean nuevos o en caché).
     return lastValues;
