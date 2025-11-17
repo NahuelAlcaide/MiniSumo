@@ -45,10 +45,23 @@
 // ************************************************************
 
 // -------------------- Parámetros sensores frontales --------------------
-// 1000 micros con 0.01 de DC para más potencia
 #define IR_LED_COUNT 3
-#define IR_MICROS_DELAY 1000 // microsegundos
-#define IR_DUTY_CYCLE 0.02 // Porcentaje de tiempo que el LED está prendido
+#define ADC_MARGIN_US 3   // Margen de error en ADC_CONV_US (µs)
+// Optimizar parámetros en orden
+// Tanto SAMPLE_DELAY_US como AMBIENT_SAMPLE_DELAY_US deberían depender unicamente del modelo del sensor
+
+// Optimizar para maximizar lectura (testear con lecturas bajas)
+#define SAMPLE_DELAY_US 150 // Tiempo de espera entre el inicio del pulso y la lectura (µs)
+// Minimizar una vez optimizado el tiempo de sample
+// El brillo pico se alcanza en nanosegundos, el largo del pulso es 100% dependiente de la responsividad del sensor
+#define LED_PULSE_WIDTH 200 // (µs)
+// Minimizar de acuerdo a la datasheet
+#define IR_DUTY_CYCLE 0.05 // Porcentaje de tiempo que el LED está prendido
+// Maximizar.
+// Unicamente mejora la precisión, testear las constantes superiores con un valor de 13 µs (prescaler 16)
+#define ADC_CONV_US 26 // Tiempo estimado de conversión ADC (µs)
+// Minimizar (testear con lecturas altas para un ballpark y con bajas para afinar)
+#define AMBIENT_SAMPLE_DELAY_US 200 // Delay entre apagado del LED y lectura ambiente (µs)
 
 // ============================================================
 //                 PARÁMETROS DE BATALLA

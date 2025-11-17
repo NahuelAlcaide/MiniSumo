@@ -1,4 +1,5 @@
 #pragma once
+#include <Arduino.h>
 
 /**
 * @brief Struct que contiene las lecturas de todos los sensores.
@@ -7,8 +8,8 @@ struct SensorData {
     int right;
     int center;
     int left;
-    int lineLeft;
-    int lineRight;
+    uint16_t lineLeft;
+    uint16_t lineRight;
 };
 
 /**

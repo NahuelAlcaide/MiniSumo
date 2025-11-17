@@ -1,45 +1,18 @@
 #include "Config.h"
 #include <Arduino.h>
 #include <QTRSensors.h>
+#include "DRA.h"
 
 #include "Sensors.h"
 
 // --- Constantes ---
 // Definir el tiempo mínimo en microsegundos que tiene que pasar antes de que se puedan volver a prender los LEDs
-#define SENSOR_COOLDOWN_US ((IR_MICROS_DELAY / IR_DUTY_CYCLE) - (IR_MICROS_DELAY * IR_LED_COUNT))
+#define SENSOR_COOLDOWN_US ((LED_PULSE_WIDTH / IR_DUTY_CYCLE) - (LED_PULSE_WIDTH * IR_LED_COUNT))
 
 // --- Variables Globales ---
 QTRSensors linea;
 uint16_t valoresLinea[2];
 bool INVERT_LINE = false;
-
-/**
- * @brief Pulsa un LED IR específico y lee el valor del fototransistor asociado.
- *
- * @param sensor El pin analógico del fototransistor.
- * @param led El pin digital asociado al transistor que controla el LED IR.
- * @return El valor leído del fototransistor, con el ruido ambiental restado.
- */
-int pulse(int sensor, int led) {
-    // Encender el LED IR
-    digitalWrite(led, HIGH);
-    // Esperar el tiempo necesario para que el LED influya en la lectura
-    delayMicroseconds(IR_MICROS_DELAY);
-    
-    // Leer el valor con el LED encendido
-    int reading = analogRead(sensor);
-    
-    // Apagar el LED IR
-    digitalWrite(led, LOW);
-
-    // Leer el valor con el LED apagado para capturar el ruido ambiental
-    int noise = analogRead(sensor);
-    
-    // Restar el ruido ambiente de la lectura
-    int denoised = reading - noise;
-    return denoised;
-}
-
 
 void sensorSetup() {
     // Pin modes para los fototransistores
@@ -51,6 +24,9 @@ void sensorSetup() {
     pinMode(RIGHT_LED_PIN, OUTPUT);
     pinMode(CENTER_LED_PIN, OUTPUT);
     pinMode(LEFT_LED_PIN, OUTPUT);
+
+    // Setup
+    draSetup();
 
     // Configuración de los QTR
     linea.setTypeRC();
@@ -64,6 +40,17 @@ SensorData readAllSensors() {
     static SensorData lastValues;
 
     unsigned long currentTime = micros();
+
+    // Lee los sensores de línea. Al estar fuera del check de cooldown el valor nunca es stale.
+    linea.read(valoresLinea);
+
+    if (INVERT_LINE) {
+        valoresLinea[0] = static_cast<uint16_t>(map(valoresLinea[0], 2500, 0, 0, 2500));
+        valoresLinea[1] = static_cast<uint16_t>(map(valoresLinea[1], 2500, 0, 0, 2500));
+    }
+
+    lastValues.lineLeft = valoresLinea[0];
+    lastValues.lineRight = valoresLinea[1];
 
     // Verifica si ha pasado el periodo de cooldown desde la última lectura exitosa.
     // También maneja la primera ejecución donde lastReadTimestamp es 0.
@@ -82,17 +69,6 @@ SensorData readAllSensors() {
             lastValues.center = 0; // Evita valores negativos
         }
     }
-
-    // Lee los sensores de línea. Al estar fuera del check de cooldown el valor nunca es stale.
-    linea.read(valoresLinea);
-
-    if (INVERT_LINE) {
-        valoresLinea[0] = static_cast<uint16_t>(map(valoresLinea[0], 2500, 0, 0, 2500));
-        valoresLinea[1] = static_cast<uint16_t>(map(valoresLinea[1], 2500, 0, 0, 2500));
-    }
-
-    lastValues.lineLeft = valoresLinea[0];
-    lastValues.lineRight = valoresLinea[1];
 
     // Devuelve los últimos valores leídos (ya sean nuevos o en caché).
     return lastValues;
