@@ -25,7 +25,6 @@ bool g_emergencyStop = false;
 
 void setup() {
   Serial.begin(115200);
-
   ledSetup();
   sensorSetup();
   initializeBattleEngine();
