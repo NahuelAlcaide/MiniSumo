@@ -34,7 +34,6 @@ static_assert(SAMPLE_DELAY_US < LATEST_POSSIBLE_ADC_START_US,
 // Calcula el tiempo restante de espera después de la muestra para asegurar que el LED esté encendido exactamente LED_PULSE_WIDTH.
 constexpr uint32_t REMAINING_ON = LED_PULSE_WIDTH - (SAMPLE_DELAY_US + ADC_CONV_US);
 
-
 // --- Helpers: Acceso rápido a pines ---
 // Obtiene la dirección del registro para escrituras digitales rápidas
 static inline volatile uint8_t *portOutputRegForPin(uint8_t pin) {
@@ -44,6 +43,13 @@ static inline volatile uint8_t *portOutputRegForPin(uint8_t pin) {
 // Obtiene la máscara de bit para escrituras digitales rápidas
 static inline uint8_t bitMaskForPin(uint8_t pin) {
     return digitalPinToBitMask(pin);
+}
+/**
+ * @brief Convierte un pin analógico de Arduino (A0-A5) a su
+ * canal ADC (0-5).
+ */
+static inline uint8_t analogPinToAdcChannel(uint8_t analogPin) {
+    return static_cast<uint8_t>(analogPin - A0);
 }
 
 // --- Funciones de Ayuda del ADC ---
@@ -76,15 +82,6 @@ static inline uint16_t adcReadChannel_blocking(uint8_t ch) {
     // 4. Leer el resultado de 10 bits
     //    Leer 'ADC' (el macro) lee ADCL y ADCH en el orden correcto.
     return ADC;
-}
-
-/**
- * @brief Convierte un pin analógico de Arduino (A0-A5) a su
- * canal ADC (0-5).
- */
-static inline uint8_t analogPinToAdcChannel(uint8_t analogPin) {
-    // En Arduino Nano/Uno: A0=ADC0, A1=ADC1, ...
-    return static_cast<uint8_t>(analogPin - A0);
 }
 
 // --- Funciones Públicas ---
@@ -123,39 +120,32 @@ int pulse(uint8_t sensorAnalogPin, uint8_t ledDigitalPin) {
     volatile uint8_t *portOut = portOutputRegForPin(ledDigitalPin);
     uint8_t mask = bitMaskForPin(ledDigitalPin);
 
-    // 1. Lectura "Dummy" (con LED apagado)
-    //    Prepara el ADC y carga el capacitor interno de Sample-and-Hold
-    //    al voltaje (ambiente) del canal seleccionado.
-    adcReadChannel_blocking(adcChan);
+    // 1. Esperar un tiempo de seguridad para evitar crosstalk entre sensores
+    delayMicroseconds(AMBIENT_SAMPLE_DELAY_US);
 
-    // 2. Encender LED
+    // 2. Tomar muestra 'OFF' (Ambiente)
+    uint16_t sampleOff = adcReadChannel_blocking(adcChan);
+
+    // 3. Encender LED
     if (portOut) *portOut |= mask; // Inicio del pulso
 
-    // 3. Esperar el tiempo de retardo antes de la muestra
+    // 4. Esperar el tiempo de retardo antes de la muestra
     //    Este delay ocurre *dentro* del período en que el LED está encendido.
     delayMicroseconds(SAMPLE_DELAY_US);
 
-    // 4. Iniciar la conversión 'ON' (mientras el LED sigue ON)
+    // 5. Iniciar la conversión 'ON' (mientras el LED sigue ON)
     //    La función se bloqueará hasta que la conversión termine.
     uint16_t sampleOn = adcReadChannel_blocking(adcChan);
 
-    // 5. Esperar el resto del ancho de pulso
+    // 6. Esperar el resto del ancho de pulso
     //    Esto asegura que el LED esté encendido por *exactamente*
     //    LED_PULSE_WIDTH microsegundos.
     delayMicroseconds(REMAINING_ON);
 
-    // 6. Apagar LED
+    // 7. Apagar LED
     if (portOut) *portOut &= ~mask; // Fin del pulso
 
-    // 7. Esperar tiempo de estabilización (Settle time)
-    //    Permite que el fotodiodo del sensor se estabilice
-    //    de nuevo al nivel de luz ambiente.
-    delayMicroseconds(AMBIENT_SAMPLE_DELAY_US);
-
-    // 8. Tomar muestra 'OFF' (Ambiente)
-    uint16_t sampleOff = adcReadChannel_blocking(adcChan);
-
-    // 9. Calcular valor diferencial
+    // 8. Calcular valor diferencial
     int denoised = static_cast<int>(sampleOn) - static_cast<int>(sampleOff);
     if (denoised < 0) denoised = 0; // Prevenir lecturas negativas
     return denoised;

@@ -61,7 +61,7 @@
 // Unicamente mejora la precisión, testear las constantes superiores con un valor de 13 µs (prescaler 16)
 #define ADC_CONV_US 26 // Tiempo estimado de conversión ADC (µs)
 // Minimizar (testear con lecturas altas para un ballpark y con bajas para afinar)
-#define AMBIENT_SAMPLE_DELAY_US 200 // Delay entre apagado del LED y lectura ambiente (µs)
+#define AMBIENT_SAMPLE_DELAY_US 10 // Delay de seguridad para evitar crosstalk entre sensores (µs)
 
 // ============================================================
 //                 PARÁMETROS DE BATALLA
